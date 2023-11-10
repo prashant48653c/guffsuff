@@ -6,12 +6,12 @@ import Chatbox from './Chatbox'
 const Home = () => {
   return (
     <Grid container  >
-        <Grid lg={3} >
+        <Grid lg={3} md={4} sm={6} xs={0}  >
         <Userlist/>
 
         </Grid>
 
-        <Grid lg={9}  >
+        <Grid lg={9}  md={8} sm={6} xs={12}  >
         <Chatbox/>
 
         </Grid>

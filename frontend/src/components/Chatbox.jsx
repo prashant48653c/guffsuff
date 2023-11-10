@@ -1,10 +1,11 @@
-        import { AppBar, Box, IconButton, InputAdornment, TextField, Toolbar, Typography } from '@mui/material'
+        import { AppBar, Box, IconButton, InputAdornment, Stack, TextField, Toolbar, Typography } from '@mui/material'
         import React from 'react'
         import SendIcon from '@mui/icons-material/Send';
         import ImageIcon from '@mui/icons-material/Image';
         import GifIcon from '@mui/icons-material/Gif';
         import VideoCallIcon from '@mui/icons-material/VideoCall';
         import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+        import ArrowBackIcon from '@mui/icons-material/ArrowBack';
         const Chatbox = () => {
         return (
         <Box pl={1}  >
@@ -13,10 +14,21 @@
             background:"#595f69"
         }} position='sticky'>
         <Toolbar >
-        <Typography flexGrow={1} variant="h6" color="inherit">Jasmin Rijal</Typography>
-        <IconButton flexGrow={1} aria-label="videocall button" >
+        <Typography flexGrow={1}  variant="h6" color="inherit">Jasmin Rijal</Typography>
+
+       <Stack flexDirection={'row'}  flexGrow={0} >
+
+       <IconButton  aria-label="videocall button" >
         <VideoCallIcon />
         </IconButton>
+
+        <IconButton   aria-label="videocall button" >
+        <ArrowBackIcon />
+        </IconButton>
+
+       </Stack>
+      
+
         </Toolbar>
 
 
@@ -52,7 +64,7 @@
 
         <form >
 
-        <TextField fullWidth sx={{
+        <TextField      autoComplete='off' fullWidth sx={{
         paddingRight: "1rem",
         border:'none',
         outline:"none",

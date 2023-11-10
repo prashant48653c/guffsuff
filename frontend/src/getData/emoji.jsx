@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, InputAdornment, TextField } from '@mui/material';
 import axios from 'axios';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 const Emoji = () => {
   const [emojis, setEmojis] = useState([]);
@@ -26,16 +28,39 @@ const Emoji = () => {
 
   return (
     <Box sx={{
-        background:" #323645"
+        background:" #323645",
+        borderRadius:"1rem"
     }} p={2} width={'25rem'}>
+      <div>
+<TextField   type="text"
+    placeholder="Search Gif"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}  sx={{
+                        width:"100%",
+                        height:"fit-content",
+                     
+                       
+                    }}
+                       
+                        id="input-with-icon-textfield"
+
+                        InputProps={{
+                            style: { color: 'white' },
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircleIcon  onClick={getEmoji} style={{ color: 'white' }} />
+                                </InputAdornment>
+                            ),
+
+                        }}
+                        variant="filled"
+                    />
+ 
     
-      <input
-        type="text"
-        placeholder="Search emoji"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-         <button onClick={getEmoji} >search</button>
+</div>
+    
+     
+        
 
       {/* Display the list of emojis */}
       <div className="emo-list">
