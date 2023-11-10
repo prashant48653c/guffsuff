@@ -3,7 +3,8 @@ import { useState } from 'react'
 import Join from './components/Join'
 import Userlist from './components/Userlist'
 import Home from './components/Home'
- 
+ import Emoji from './getData/emoji'
+import Gif from './getData/Gif'
 function App() {
   
   const theme=createTheme({
@@ -19,7 +20,7 @@ function App() {
     <>
 
 
-     <Home/>
+     <Gif/>
    
  
 

@@ -1,67 +1,95 @@
-import { AppBar, Box, IconButton, InputAdornment, TextField, Toolbar, Typography } from '@mui/material'
-import React from 'react'
-import SendIcon from '@mui/icons-material/Send';
-import ImageIcon from '@mui/icons-material/Image';
-import GifIcon from '@mui/icons-material/Gif';
-import VideoCallIcon from '@mui/icons-material/VideoCall';
-const Chatbox = () => {
-  return (
-    <Box p={1}>
+        import { AppBar, Box, IconButton, InputAdornment, TextField, Toolbar, Typography } from '@mui/material'
+        import React from 'react'
+        import SendIcon from '@mui/icons-material/Send';
+        import ImageIcon from '@mui/icons-material/Image';
+        import GifIcon from '@mui/icons-material/Gif';
+        import VideoCallIcon from '@mui/icons-material/VideoCall';
+        import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+        const Chatbox = () => {
+        return (
+        <Box pl={1}  >
 
-        <AppBar position='sticky'>
-            <Toolbar >
+        <AppBar elevation={0} sx={{
+            background:"#595f69"
+        }} position='sticky'>
+        <Toolbar >
         <Typography flexGrow={1} variant="h6" color="inherit">Jasmin Rijal</Typography>
         <IconButton flexGrow={1} aria-label="videocall button" >
-              <VideoCallIcon/>
-            </IconButton>
-            </Toolbar>
+        <VideoCallIcon />
+        </IconButton>
+        </Toolbar>
 
-          
-          
+
+
         </AppBar>
 
         <div style={{
-                   
-                    height:"77vh",
-                    border:"1px solid green",
-                    padding:"2rem"
-                }}>
-                    Prashant Acharya
-                </div>  
+
+        height: "77vh",
+        padding: "2rem 0"
+
+        }}>
+
+        <Box p={1} sx={{
+        background: "#4c4c57",
+        marginY:"1rem"
+        }} >
+        How are you doing?
+
+        </Box>
+
+        <Box p={1} sx={{
+        background: "#4c4c57"
+        }} >
+       Chilling and watching Squid Game
+
+        </Box>
 
 
-                <form >
 
-                <TextField fullWidth sx={{
-                    paddingRight:"1rem"
-                }} id="fullWidth"  placeholder='Type some messege'  InputProps={{
-                            style: { color: 'white' },
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <SendIcon style={{ color: 'white',cursor:"pointer" }} />
-                                </InputAdornment>
-                            ),
-                            startAdornment:(
-                                <>
-                                   <InputAdornment sx={{marginRight:".7rem"}} position="start">
-                                <ImageIcon style={{ color: 'white',cursor:"pointer" }} />
-                            </InputAdornment>
-                             <InputAdornment position="start">
-                             <GifIcon style={{ color: 'white',cursor:"pointer" }} />
-                         </InputAdornment> 
-                                </>
-                               
-                            ) 
-
-                        }} />
-
-                    
+        </div>
 
 
-                </form>
-               
-    </Box>
-  )
-}
+        <form >
 
-export default Chatbox
+        <TextField fullWidth sx={{
+        paddingRight: "1rem",
+        border:'none',
+        outline:"none",
+        
+        borderRadius:50,
+        background: "#343541"
+        }}   placeholder='Type some messege' InputProps={{
+        style: { color: 'white' },
+        endAdornment: (
+        <InputAdornment position="end">
+        <SendIcon style={{ color: 'white', cursor: "pointer" }} />
+        </InputAdornment>
+        ),
+        startAdornment: (
+        <>
+        <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
+        <ImageIcon style={{ color: 'white', cursor: "pointer" }} />
+        </InputAdornment>
+        <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
+        <GifIcon style={{ color: 'white', cursor: "pointer" }} />
+        </InputAdornment>
+        <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
+        <EmojiEmotionsIcon style={{ color: 'white', cursor: "pointer" }} />
+        </InputAdornment>
+        </>
+
+        )
+
+        }} />
+
+
+
+
+        </form>
+
+        </Box>
+        )
+        }
+
+        export default Chatbox

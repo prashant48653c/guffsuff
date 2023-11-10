@@ -5,7 +5,7 @@ import Chatbox from './Chatbox'
 
 const Home = () => {
   return (
-    <Grid container rowGap={1} >
+    <Grid container  >
         <Grid lg={3} >
         <Userlist/>
 
