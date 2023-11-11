@@ -1,5 +1,5 @@
         import { AppBar, Box, IconButton, InputAdornment, Stack, TextField, Toolbar, Typography } from '@mui/material'
-        import React from 'react'
+        import React, { useEffect } from 'react'
         import SendIcon from '@mui/icons-material/Send';
         import ImageIcon from '@mui/icons-material/Image';
         import GifIcon from '@mui/icons-material/Gif';
@@ -10,7 +10,7 @@ import { setShowEmoji, setShowGif } from '../slices/toggleSlicer';
 import Emoji from '../getData/emoji';
 import { useDispatch, useSelector } from 'react-redux';
 import Gif from '../getData/Gif';
-import { sendMessege } from '../socket/chats';
+ 
 
 
 
@@ -19,7 +19,7 @@ import { sendMessege } from '../socket/chats';
 const dispatch=useDispatch()
 const {showEmoji,showGif}=useSelector((state)=>state.toggle)
 
-sendMessege()
+ 
 
 const emojiShow=()=>{
     console.log("emoji")

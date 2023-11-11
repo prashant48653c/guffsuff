@@ -1,21 +1,18 @@
 const express=require("express")
 const http=require("http")
 const { Server } = require("socket.io");
-
-
+const router=require("./router/apiRoute")
+const connectDB=require("./db/conn")
 
 const app=express()
 const server=http.createServer(app)
 const PORT=4000;
 const io=new Server(server)
-
+app.use(router)
 //socket request
-
+connectDB()
 io.on('connection',(socket)=>{     //socket == client
- socket.on('user_messege',(messege)=>{
-    console.log(messege)
-    io.emit('messege',messege)
- })
+  socket.emit("user_messege","Hello Js")
 })
 
 
