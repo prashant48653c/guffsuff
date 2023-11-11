@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Emoji = () => {
   const [emojis, setEmojis] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('computer');
+  const [searchTerm, setSearchTerm] = useState('animal');
 
  
     const getEmoji = async () => {
@@ -25,11 +25,15 @@ const Emoji = () => {
     };
 
     
-
+ 
   return (
     <Box sx={{
         background:" #323645",
-        borderRadius:"1rem"
+        borderRadius:"1rem",
+        position:'absolute',
+        bottom:"100%",
+        left:"0%",
+       
     }} p={2} width={'25rem'}>
       <div>
 <TextField   type="text"

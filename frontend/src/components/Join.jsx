@@ -3,9 +3,10 @@ import BlackBg from '../assets/blackbg.jpg'
 import Container from '@mui/material/Container'
 import { Box, Typography, Link, FormControl, FormLabel, FormHelperText, TextField, Button } from '@mui/material'
 import { blue } from '@mui/material/colors'
+import { useNavigate } from 'react-router-dom'
 
 const Join = () => {
-
+const navigate=useNavigate()
     const signup=()=>{
         console.log("submit click")
     }
@@ -23,7 +24,7 @@ paddingTop: '3rem',
 
     <Typography gutterBottom variant="h3" fontWeight={500} color="white">Create new account  </Typography>
 
-    <Typography gutterBottom variant="subtitle2" color="inherit">Already A Member?   <Link sx={{
+    <Typography gutterBottom variant="subtitle2" color="inherit">Already A Member?   <Link onClick={()=>navigate("/login")} sx={{
         textDecoration:"none",
         paddingLeft:".5rem",
         color:"#87C4FF"
@@ -79,7 +80,7 @@ paddingTop: '3rem',
 
 
 
-
+ 
 </Container>
 
 </section>

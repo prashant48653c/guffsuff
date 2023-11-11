@@ -6,7 +6,47 @@
         import VideoCallIcon from '@mui/icons-material/VideoCall';
         import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
         import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-        const Chatbox = () => {
+import { setShowEmoji, setShowGif } from '../slices/toggleSlicer';
+import Emoji from '../getData/emoji';
+import { useDispatch, useSelector } from 'react-redux';
+import Gif from '../getData/Gif';
+import { sendMessege } from '../socket/chats';
+
+
+
+ const Chatbox = () => {
+
+const dispatch=useDispatch()
+const {showEmoji,showGif}=useSelector((state)=>state.toggle)
+
+sendMessege()
+
+const emojiShow=()=>{
+    console.log("emoji")
+    if(showEmoji==false){
+        dispatch(setShowGif(false))
+        dispatch(setShowEmoji(true))
+
+    }else{
+        dispatch(setShowEmoji(false))
+
+    }
+}
+
+const gifShow=()=>{
+    console.log("gif")
+    if(showGif==false){
+        dispatch(setShowEmoji(false))
+        dispatch(setShowGif(true))
+        console.log("aayo")
+
+    }else{
+        dispatch(setShowGif(false))
+
+    }
+}
+
+
         return (
         <Box pl={1}  >
 
@@ -83,12 +123,29 @@
         <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
         <ImageIcon style={{ color: 'white', cursor: "pointer" }} />
         </InputAdornment>
-        <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
+
+        <InputAdornment onClick={gifShow} sx={{ marginRight: ".7rem" }} position="start">
         <GifIcon style={{ color: 'white', cursor: "pointer" }} />
         </InputAdornment>
-        <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
-        <EmojiEmotionsIcon style={{ color: 'white', cursor: "pointer" }} />
+
+        <InputAdornment onClick={emojiShow} sx={{ marginRight: ".7rem" }} position="start">
+        <EmojiEmotionsIcon  style={{ color: 'white', cursor: "pointer" }} />
         </InputAdornment>
+
+{
+showEmoji &&
+(
+<Emoji/>
+)
+}
+
+{
+showGif &&
+(
+<Gif/>
+)
+}
+        
         </>
 
         )

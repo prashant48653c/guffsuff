@@ -2,11 +2,11 @@ import { Box, InputAdornment, Paper, TextField, Typography, IconButton } from '@
 import React from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import {useNavigate} from 'react-router-dom'
 
 
 const Userlist = () => {
- 
+ const navigate=useNavigate()
     return (
         <aside style={{
             position: "relative",
@@ -129,7 +129,7 @@ const Userlist = () => {
                         background:"#636b65"
                       }}>
                                <Typography flexGrow={1} variant="body1" color="inherit">Prashant Acharya</Typography> 
-                               <IconButton aria-label="logout"  >
+                               <IconButton onClick={()=>navigate("/login")} aria-label="logout"  >
                                  <LogoutIcon/>
                                </IconButton>    
                                 </Paper>
