@@ -9,7 +9,7 @@ const ConversationModel = require("../model/ConversationModel")
 router.post("/signup",async(req,res)=>{
     try{
         const {firstname,lastnaame,email,password}=req.body
-        const newUser=new UserModel({firstname,lastnaame,email,password});
+        const newUser=await new UserModel({firstname,lastnaame,email,password});
         await newUser.save()
         res.status(201).json({ messege: "Succesfully registered!" })
     }catch(err){
