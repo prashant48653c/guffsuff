@@ -25,7 +25,7 @@ const Emoji = () => {
     };
 
     
- 
+
   return (
     <Box sx={{
         background:" #323645",
@@ -69,14 +69,18 @@ const Emoji = () => {
       {/* Display the list of emojis */}
       <div className="emo-list">
         {
-            emojis &&   emojis.map((emoji) => (
-                <span style={{
-                    fontSize:"2rem"
-                }} key={emoji.slug}>
+       
+            emojis[0] &&   emojis.map((emoji) => (
+              <span style={{
+                  fontSize:"2rem"
+              }} key={emoji.slug}>
 
-                    {emoji.character}
-                    </span>
-              ))
+                  {emoji.character}
+                  </span>
+            ))
+      
+         
+           
         }
        
       </div>
@@ -84,6 +88,8 @@ const Emoji = () => {
    
     </Box>
   );
-};
+ }
+
+ 
 
 export default Emoji;
