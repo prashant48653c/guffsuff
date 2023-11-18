@@ -1,11 +1,32 @@
 import { Box, InputAdornment, Paper, TextField, Typography, IconButton } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom'
-
+import axios from 'axios'
+import { setConversation,setMessege } from '../slices/messegeSlicer';
 
 const Userlist = () => {
+  
+    let userList=[1,2 ,4,5]
+
+    const getUserList=async()=>{
+        try {
+            const res=await axios.get("http://localhost:4000/conversation")
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+useEffect(()=>{
+    getUserList()
+},[])
+
+
+
+
+
  const navigate=useNavigate()
     return (
         <aside style={{
@@ -50,75 +71,57 @@ const Userlist = () => {
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",
-                   
+                   overflowY:"scroll",
                     height: "100vh"
                 }}>
 
                 
+                {
+                    userList.map((user,i)=>{
+                        return(
+                            <Box sx={{
+                                padding:".7rem",
+                                 display:"flex",
+                                 gap:"1rem",
+                                 alignItem:"center",
+                                  borderRadius:"1rem",
+                                 background:"#595f69",
+                                 marginY:"1rem"
+                             }}>
+                                 <div style={{
+                                     width:"3rem",
+                                     height:"3rem",
+                                     borderRadius:"56",
+                                  
+         
+                                 }}>
+                                 <img style={{
+                                      width:"3rem",
+                                      height:"3rem",
+                                      borderRadius:"56rem"
+                                 }}   src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
+                                 </div>
+                               <div >
+                               <Typography variant="body1" color="inherit">Jasmin Rijal</Typography>
+                               <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
+         
+                               </div>
+                             </Box>
+                        )
+                    })
+                }
 
                     
-                    <Box sx={{
-                       padding:".7rem",
-                        display:"flex",
-                        gap:"1rem",
-                        alignItem:"center",
-                         borderRadius:"1rem",
-                        background:"#595f69",
-                        marginY:"1rem"
-                    }}>
-                        <div style={{
-                            width:"3rem",
-                            height:"3rem",
-                            borderRadius:"56",
-                         
-
-                        }}>
-                        <img style={{
-                             width:"3rem",
-                             height:"3rem",
-                             borderRadius:"56rem"
-                        }}   src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
-                        </div>
-                      <div >
-                      <Typography variant="body1" color="inherit">Jasmin Rijal</Typography>
-                      <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
-
-                      </div>
-                    </Box>
+                 
 
                     
-                    <Box sx={{
-                       padding:".7rem",
-                        display:"flex",
-                        gap:"1rem",
-                        alignItem:"center",
-                         borderRadius:"1rem",
-                        background:"#595f69",
-                        marginY:"1rem"
-                    }}>
-                        <div style={{
-                            width:"3rem",
-                            height:"3rem",
-                            borderRadius:"56",
-                         
-
-                        }}>
-                        <img style={{
-                             width:"3rem",
-                             height:"3rem",
-                             borderRadius:"56rem"
-                        }}   src="https://i.pinimg.com/originals/12/24/7e/12247e74656f830187bc2e4cb7f09a76.jpg" alt="" />
-                        </div>
-                      <div >
-                      <Typography variant="body1" color="inherit">Jasmin Rijal</Typography>
-                      <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
-
-                      </div>
-
-                     
-                    </Box>
+                 
                     
-                    <Paper sx={{
+                 
+
+                </Box>
+
+                <Paper sx={{
                         width:"100%",
                         padding:"1rem",
                         display:"flex",
@@ -133,10 +136,6 @@ const Userlist = () => {
                                  <LogoutIcon/>
                                </IconButton>    
                                 </Paper>
-
-                </Box>
-
-
 
                              
 
