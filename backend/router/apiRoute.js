@@ -4,12 +4,19 @@ const UserModel = require("../model/UserModel")
 const cors = require("cors")
 const ConversationModel = require("../model/ConversationModel")
 const MessegeModel = require("../model/MessegeModel")
-
+const cookieParser=require("cookie-parser")
+const jwt=require("jsonwebtoken")
+const Authenticate=require("../middleware/Authenticate")
 /// for user signup 
+
+require('dotenv').config();
 router.use(express.json())
 router.use(cors({
-    origin: "http://localhost:5173"
+    origin: "http://localhost:5173",
+    credentials:true,
+    methods: "GET,PUT,POST,PATCH,DELETE"
 }))
+router.use(cookieParser())
 router.post("/signup", async (req, res) => {
     const { firstname, lastname, email, password } = await req.body
     try {
@@ -23,6 +30,46 @@ router.post("/signup", async (req, res) => {
     }
 
 })
+
+// login route for cookie
+
+router.post("/login", async (req, res) => {
+    const {  email, password } = await req.body
+    console.log(process.env.SECRET)
+    try {
+
+        const oldUser = await UserModel.findOne({email})
+        
+        if( oldUser.password === password){
+            const token=await oldUser.createAuthToken()
+            res.cookie('jwtoken',token,{
+                expires:new Date(Date.now() + 3333333333333),
+                httpOnly:false,
+                secure:true,
+                credentials:"include",
+                
+            })
+        
+           res.status(200).json({ messege: "Succesfully login!" })   
+        }else{
+            res.status(401).json({ messege: "Wrong credentials" });
+        
+        }
+         
+      
+    } catch (err) {
+        console.log(err)
+        res.status(401).json({ messege: "Unable to login" });
+    }
+
+})
+
+
+
+
+
+
+
 
 //get all user
 router.get("/alluser", async (req, res) => {

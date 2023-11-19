@@ -79,7 +79,7 @@ useEffect(()=>{
                 {
                     userList.map((user,i)=>{
                         return(
-                            <Box sx={{
+                            <Box key={i} sx={{
                                 padding:".7rem",
                                  display:"flex",
                                  gap:"1rem",
@@ -102,7 +102,7 @@ useEffect(()=>{
                                  }}   src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
                                  </div>
                                <div >
-                               <Typography variant="body1" color="inherit">Jasmin Rijal</Typography>
+                               <Typography variant="body1" color="inherit">{user.firstname}</Typography>
                                <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
          
                                </div>

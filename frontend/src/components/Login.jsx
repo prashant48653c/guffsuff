@@ -1,9 +1,44 @@
 import { Box, Button, Container, Link, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 const Login = () => {
  const navigate=useNavigate()
+
+ const [userCredential, setUserCredential] = useState({
+    email:'',
+    password:''
+ })
+ const handleChange=(e)=>{
+    e.preventDefault()
+const {name,value}=e.target;
+setUserCredential({...userCredential,[name]:value})
+ }
+
+ const handleLogin=async()=>{
+    try{
+
+   
+    const res=await axios.post("http://localhost:4000/login",userCredential,{
+        headers: {
+            'Content-Type': 'application/json', 
+            Authorization: 'Bearer YourAccessToken',  
+          
+          },
+        withCredentials:true
+    })
+    console.log(res)
+
+}catch(err){
+    console.log(err)
+
+}
+
+ }
+ useEffect(()=>{
+    console.log(userCredential)
+ },[userCredential])
 
   return (
     <>
@@ -28,7 +63,7 @@ paddingTop: '3rem',
     }} > Sign Up</Link>  </Typography>
 
 
-    <form    method='POST'>
+    <form onSubmit={handleLogin} method='POST'>
        
         <div 
        style={{
@@ -36,14 +71,14 @@ paddingTop: '3rem',
         display:"flex",
         gap:"3rem",
         margin:"2rem 0"
-    }}
+     }}
         > 
 
-        <TextField InputProps={{
+        <TextField value={userCredential.email} name='email' onChange={handleChange} InputProps={{
             style: { color: 'white' },
         }} id="filled-basic" type='email'  placeholder='Email' variant="filled" />
 
-        <TextField InputProps={{
+        <TextField value={userCredential.password} name='password'  onChange={handleChange} InputProps={{
             style: { color: 'white' },
         }} id="filled-basic" type='password'  placeholder='Password' variant="filled" />
 
@@ -51,14 +86,14 @@ paddingTop: '3rem',
 
         </div>
 
-        <Button sx={{
+        <Button  style={{
             padding:".7rem 3rem",
             borderRadius:"4rem"
-        }} type='submit'  variant="contained">Login</Button>
+        }} type='submit' variant='contained' >Login</Button>
 
 
 
-    </form>
+     </form>
 </Box>
 
 
