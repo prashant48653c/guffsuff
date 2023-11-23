@@ -4,7 +4,7 @@ import Container from '@mui/material/Container'
 import { Box, Typography, Link, FormControl, FormLabel, FormHelperText, TextField, Button } from '@mui/material'
 import { blue } from '@mui/material/colors'
 import { useNavigate } from 'react-router-dom'
-
+import axios from 'axios'
 const Join = () => {
 const navigate=useNavigate()
    
@@ -21,7 +21,8 @@ const navigate=useNavigate()
     setUserCredential({...userCredential,[name]:value})
      }
     
-     const signup=async()=>{
+     const signup=async(e)=>{
+        e.preventDefault()
         try{
     
        
@@ -41,14 +42,7 @@ const navigate=useNavigate()
      }
 
 
-
-
-
-
-
-
-
-
+ 
 
 return (
 <section className='join-section' >
@@ -71,7 +65,7 @@ paddingTop: '3rem',
     }} >  Log In</Link>  </Typography>
 
 
-    <form  onSubmit={signup} method='POST'>
+    <form  >
         <div style={{
             color: "white",
             display:"flex",
@@ -111,7 +105,7 @@ paddingTop: '3rem',
         <Button sx={{
             padding:".7rem 3rem",
             borderRadius:"4rem"
-        }} type='submit'  variant="contained">Signup</Button>
+        }} type='submit'  variant="contained"  onClick={signup}>Signup</Button>
 
 
 

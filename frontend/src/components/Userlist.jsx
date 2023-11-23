@@ -12,7 +12,7 @@ const Userlist = () => {
 
     const getUserList=async()=>{
         try {
-            const res=await axios.get("http://localhost:4000/conversation")
+            const res=await axios.get("http://localhost:4000/alluser")
             console.log(res)
         } catch (error) {
             console.log(error)

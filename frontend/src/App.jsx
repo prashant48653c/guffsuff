@@ -7,9 +7,9 @@ import Emoji from './getData/emoji'
 import Gif from './getData/Gif'
 import Login from './components/Login'
 
-import { BrowserRouter,Routes,Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 function App() {
- 
+
   const theme = createTheme({
     typography:
     {
@@ -20,28 +20,28 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
 
-      <>
+
       <BrowserRouter>
-  <Routes>
-    
-    <Route  path='/' element={<Home/>}  />
-    <Route  path='/join' element={<Join/>}  />
-    <Route  path='/login' element={<Login/>}  />
-   
+        <Routes>
+
+          <Route path='/' element={<Home />} />
+          <Route path='/join' element={<Join />} />
+          <Route path='/login' element={<Login />} />
 
 
 
-    
-    </Routes>    
-      
+
+
+        </Routes>
+
       </BrowserRouter>
 
 
-    
 
 
 
-      </>
+
+
 
     </ThemeProvider>
 

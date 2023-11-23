@@ -16,7 +16,9 @@ const {name,value}=e.target;
 setUserCredential({...userCredential,[name]:value})
  }
 
- const handleLogin=async()=>{
+ const handleLogin=async(e)=>{
+    e.preventDefault()
+    
     try{
 
    
@@ -61,7 +63,7 @@ paddingTop: '3rem',
     }} > Sign Up</Link>  </Typography>
 
 
-    <form onSubmit={handleLogin} method='POST'>
+    <form   >
        
         <div 
        style={{
@@ -87,7 +89,7 @@ paddingTop: '3rem',
         <Button  style={{
             padding:".7rem 3rem",
             borderRadius:"4rem"
-        }} type='submit' variant='contained' >Login</Button>
+        }} type='submit' variant='contained' onClick={handleLogin}  >Login</Button>
 
 
 

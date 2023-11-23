@@ -6,7 +6,7 @@ const connectDB=require("./db/conn")
 const cors=require("cors")
 const app=express()
 const server=http.createServer(app)
-const PORT=4000;
+const PORT=4000
 const io=new Server(server)
 app.use(router)
 
