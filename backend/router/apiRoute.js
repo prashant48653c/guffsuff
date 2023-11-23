@@ -6,7 +6,7 @@ const ConversationModel = require("../model/ConversationModel")
 const MessegeModel = require("../model/MessegeModel")
 const cookieParser=require("cookie-parser")
 const jwt=require("jsonwebtoken")
- 
+ const Authenticate=require("../middleware/Authenticate.js")
 /// for user signup 
 
 require('dotenv').config();
@@ -69,6 +69,20 @@ router.post("/login", async (req, res) => {
 
 })
 
+//get login user info
+
+router.get("/getdata", Authenticate, async (req, res) => {
+    let token = await req.cookies.jwtoken
+
+    const data = await req.rootUser
+
+    if (!data) {
+        res.status(400).json({ error: "New user" })
+    } else {
+        res.status(200).send(data)
+
+    }
+})
 
 
 

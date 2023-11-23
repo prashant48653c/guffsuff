@@ -2,9 +2,13 @@ import { Box, Button, Container, Link, TextField, Typography } from '@mui/materi
 import React, { useEffect, useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import {useDispatch} from 'react-redux'
+import { setUserData } from '../slices/authSlicer'
 
 const Login = () => {
  const navigate=useNavigate()
+ const dispatch=useDispatch()
+ 
 
  const [userCredential, setUserCredential] = useState({
     email:'',
@@ -22,13 +26,14 @@ setUserCredential({...userCredential,[name]:value})
     try{
 
    
-    const res=await axios.post("http://localhost:4000/login",userCredential,{
+    const res= await axios.post("http://localhost:4000/login",userCredential,{
         headers: {
             'Content-Type': 'application/json', 
           },
         withCredentials:true
     })
     console.log(res)
+    
 
 }catch(err){
     console.log("logging error",err)

@@ -10,12 +10,24 @@ import { setShowEmoji, setShowGif } from '../slices/toggleSlicer';
 import Emoji from '../getData/emoji';
 import { useDispatch, useSelector } from 'react-redux';
 import Gif from '../getData/Gif';
- 
+ import axios from 'axios'
 
 
 
  const Chatbox = () => {
+    const getUserList=async()=>{
+     
+        try {
+            const res=await axios.get("http://localhost:4000/getdata")
+            console.log("Hello")
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
+ 
+    getUserList()
 const dispatch=useDispatch()
 const {showEmoji,showGif}=useSelector((state)=>state.toggle)
 

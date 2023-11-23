@@ -4,24 +4,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
-import { setConversation,setMessege } from '../slices/messegeSlicer';
+ 
 
 const Userlist = () => {
   
-    let userList=[1,2 ,4,5]
+    let userList=[1,2 ,4]
 
-    const getUserList=async()=>{
-        try {
-            const res=await axios.get("http://localhost:4000/alluser")
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-useEffect(()=>{
-    getUserList()
-},[])
+   
+ 
 
 
 
