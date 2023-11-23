@@ -15,19 +15,8 @@ import Gif from '../getData/Gif';
 
 
  const Chatbox = () => {
-    const getUserList=async()=>{
-     
-        try {
-            const res=await axios.get("http://localhost:4000/getdata")
-            console.log("Hello")
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
  
-    getUserList()
+
 const dispatch=useDispatch()
 const {showEmoji,showGif}=useSelector((state)=>state.toggle)
 

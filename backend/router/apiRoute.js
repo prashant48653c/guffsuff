@@ -137,7 +137,7 @@ router.post('/connect', async (req, res) => {
 })
 //get the conversation of the user with userId
 
-router.get('/:userId', async (req, res) => {
+router.get('/conversation', async (req, res) => {
 
 
     try {

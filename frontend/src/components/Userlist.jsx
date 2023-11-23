@@ -4,20 +4,48 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from '../slices/authSlicer';
  
 
 const Userlist = () => {
-  
     let userList=[1,2 ,4]
 
-   
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
+    const {userData}=useSelector((state)=>state.auth)
+    const getUserData=async()=>{
+     
+        const response = await axios.get( "http://localhost:4000/getdata", {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            withCredentials: true
+          });
+    
+          const data = response.data;
+console.log(data)
+dispatch(setUserData(data))
+        }
+        
+        const getUserConversation=async()=>{
+            try {
+                const response=await axios.get(`/conversation/655f592eb1a7989a1570dbff`)
+                const data=response.data
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+       
+
+        useEffect(()=>{
+            getUserConversation()
+
+        },[])
  
-
-
-
-
-
- const navigate=useNavigate()
+ 
     return (
         <aside style={{
             position: "relative",
