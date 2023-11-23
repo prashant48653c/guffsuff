@@ -11,7 +11,7 @@ const Login = () => {
     password:''
  })
  const handleChange=(e)=>{
-    e.preventDefault()
+   
 const {name,value}=e.target;
 setUserCredential({...userCredential,[name]:value})
  }
@@ -23,15 +23,13 @@ setUserCredential({...userCredential,[name]:value})
     const res=await axios.post("http://localhost:4000/login",userCredential,{
         headers: {
             'Content-Type': 'application/json', 
-            Authorization: 'Bearer YourAccessToken',  
-          
           },
         withCredentials:true
     })
     console.log(res)
 
 }catch(err){
-    console.log(err)
+    console.log("logging error",err)
 
 }
 

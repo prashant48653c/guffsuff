@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BlackBg from '../assets/blackbg.jpg'
 import Container from '@mui/material/Container'
 import { Box, Typography, Link, FormControl, FormLabel, FormHelperText, TextField, Button } from '@mui/material'
@@ -7,9 +7,49 @@ import { useNavigate } from 'react-router-dom'
 
 const Join = () => {
 const navigate=useNavigate()
-    const signup=()=>{
-        console.log("submit click")
+   
+
+    const [userCredential, setUserCredential] = useState({
+        firstname:'',
+        lastname:'',
+        email:'',
+        password:''
+     })
+     const handleChange=(e)=>{
+       
+    const {name,value}=e.target;
+    setUserCredential({...userCredential,[name]:value})
+     }
+    
+     const signup=async()=>{
+        try{
+    
+       
+        const res=await axios.post("http://localhost:4000/signup",userCredential,{
+            headers: {
+                'Content-Type': 'application/json', 
+              },
+            withCredentials:true
+        })
+        console.log(res)
+    
+    }catch(err){
+        console.log("logging error",err)
+    
     }
+    
+     }
+
+
+
+
+
+
+
+
+
+
+
 return (
 <section className='join-section' >
 
@@ -39,11 +79,11 @@ paddingTop: '3rem',
             margin:"2rem 0"
         }} >
 
-<TextField InputProps={{
+<TextField onChange={handleChange} value={userCredential.firstname} name='firstname' InputProps={{
             style: { color: 'white' },
         }} id="filled-basic" type='text'  placeholder='First name' variant="filled" />
 
-<TextField InputProps={{
+<TextField onChange={handleChange} name='lastname' value={userCredential.lastname} InputProps={{
             style: { color: 'white' },
         }} id="filled-basic" type='text'  placeholder='Last name' variant="filled" />
         </div>
@@ -56,11 +96,11 @@ paddingTop: '3rem',
     }}
         > 
 
-        <TextField InputProps={{
+        <TextField onChange={handleChange} name='email' value={userCredential.email} InputProps={{
             style: { color: 'white' },
         }} id="filled-basic" type='email'  placeholder='Email' variant="filled" />
 
-        <TextField InputProps={{
+        <TextField onChange={handleChange} name='password' value={userCredential.password} InputProps={{
             style: { color: 'white' },
         }} id="filled-basic" type='password'  placeholder='Password' variant="filled" />
 

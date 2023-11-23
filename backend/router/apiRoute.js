@@ -6,7 +6,7 @@ const ConversationModel = require("../model/ConversationModel")
 const MessegeModel = require("../model/MessegeModel")
 const cookieParser=require("cookie-parser")
 const jwt=require("jsonwebtoken")
-const Authenticate=require("../middleware/Authenticate")
+ 
 /// for user signup 
 
 require('dotenv').config();
@@ -17,8 +17,13 @@ router.use(cors({
     methods: "GET,PUT,POST,PATCH,DELETE"
 }))
 router.use(cookieParser())
+
+
 router.post("/signup", async (req, res) => {
     const { firstname, lastname, email, password } = await req.body
+    if(!email){
+        res.send("Fill properly")
+    }
     try {
 
         const newUser = await new UserModel({ firstname, lastname, email, password });
@@ -35,16 +40,16 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const {  email, password } = await req.body
-    console.log(process.env.SECRET)
+    
     try {
 
-        const oldUser = await UserModel.findOne({email})
+        const oldUser = await UserModel.findOne({email:email})
         
         if( oldUser.password === password){
             const token=await oldUser.createAuthToken()
             res.cookie('jwtoken',token,{
                 expires:new Date(Date.now() + 3333333333333),
-                httpOnly:false,
+                httpOnly:true,
                 secure:true,
                 credentials:"include",
                 
