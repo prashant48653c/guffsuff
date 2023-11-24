@@ -9,7 +9,7 @@ const Conversation = ({user}) => {
     const { userData ,friendData} = useSelector((state) => state.auth)
     
     const getFriendData=async()=>{
-        const response=await axios.get("http://localhost:4000/friendid/655f592eb1a7989a1570dbff")
+        const response=await axios.get("http://localhost:4000/friendid/656087a45967f380b625f77b") //your selected conversation friend id friendId
         const data=response.data.messege
         dispatch(setFriendData(data))
         console.log(friendData)
@@ -24,36 +24,39 @@ const Conversation = ({user}) => {
        
     },[])
 
-  return (
-    <Box  sx={{
-        padding: ".7rem",
-        display: "flex",
-        gap: "1rem",
-        alignItem: "center",
-        borderRadius: "1rem",
-        background: "#595f69",
-        marginY: "1rem"
-    }}>
-        <div style={{
-            width: "3rem",
-            height: "3rem",
-            borderRadius: "56",
+    if(friendData){
+        return (
+            <Box  sx={{
+                padding: ".7rem",
+                display: "flex",
+                gap: "1rem",
+                alignItem: "center",
+                borderRadius: "1rem",
+                background: "#595f69",
+                marginY: "1rem"
+            }}>
+                <div style={{
+                    width: "3rem",
+                    height: "3rem",
+                    borderRadius: "56",
+        
+        
+                }}>
+                    <img style={{
+                        width: "3rem",
+                        height: "3rem",
+                        borderRadius: "56rem"
+                    }} src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
+                </div>
+                <div >
+                    <Typography variant="body1" color="inherit">{friendData.firstname}</Typography>
+                    <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
+        
+                </div>
+            </Box>
+          )
+    }
 
-
-        }}>
-            <img style={{
-                width: "3rem",
-                height: "3rem",
-                borderRadius: "56rem"
-            }} src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
-        </div>
-        <div >
-            <Typography variant="body1" color="inherit">{friendData.firstname}</Typography>
-            <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
-
-        </div>
-    </Box>
-  )
 }
 
 export default Conversation

@@ -23,8 +23,7 @@ const Chatbox = () => {
     const { showEmoji, showGif } = useSelector((state) => state.toggle)
     const { currentChat, messege } = useSelector(state => state.conversation)
     const { userData } = useSelector((state) => state.auth)
-
-
+const [presentChat,setPresentChat]=useState([])
     const emojiShow = () => {
 
         if (showEmoji == false) {
@@ -36,7 +35,12 @@ const Chatbox = () => {
 
         }
     }
+useEffect(()=>{
+    if(currentChat){
+        setPresentChat(currentChat._id)
 
+    }
+},[])
     const gifShow = () => {
         console.log("gif")
         if (showGif == false) {
@@ -52,7 +56,7 @@ const Chatbox = () => {
  
     const getMessege = async () => {
         try {
-            const response = await axios.get("http://localhost:4000/messege/6556d85bc6907102f6431d4b")
+            const response = await axios.get("http://localhost:4000/messege/656088725967f380b625f788")  //conversation id
             const data = response.data.messege
             dispatch(setMessege(data))
             console.log(data)
@@ -66,11 +70,17 @@ const Chatbox = () => {
     }, [])
     const [newMessege, setNewMessege] = useState({
         senderId: userData._id,
-        messege: '',
-        conversationId:currentChat._id
+        messege: 'hi',
+        conversationId:presentChat
+        
     })
+ 
+    const updateMessege=(e)=>{
+        e.preventDefault()
+        setNewMessege({ ...newMessege, message: e.target.value })
+    }
     const submitMessege = async () => {
-        const response = await axios.post("", newMessege)
+        const response = await axios.post("http://localhost:4000/write", newMessege)
 console.log(response)
     }
 
@@ -129,7 +139,7 @@ console.log(response)
 
                 <form >
 
-                    <TextField onChange={(e) => setNewMessege(e.target.value)} value={newMessege.messege} autoComplete='off' fullWidth sx={{
+                    <TextField  onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
                         paddingRight: "1rem",
                         border: 'none',
                         outline: "none",

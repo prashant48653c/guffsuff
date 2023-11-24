@@ -35,7 +35,7 @@ dispatch(setUserData(data))
 
 const getUserConversation = async () => {
 try {
-const response = await axios.get(`http://localhost:4000/conversation/655f592eb1a7989a1570dbff`)
+const response = await axios.get(`http://localhost:4000/conversation/6560877b5967f380b625f779`) //your user id
 const data = response.data.data
 dispatch(setConversation(data))
 
@@ -52,103 +52,105 @@ getUserConversation()
 
 }, [])
 
-
-return (
-<aside style={{
-position: "relative",
-
-
-
-}}>
-<Box sx={{
-position: "fixed",
-maxWidth: "100%",
-marginX: "2rem"
-}} >
-
-
-
-<TextField sx={{
-width: "100%",
-height: "fit-content",
-
-
-}}
-autoComplete='off'
-placeholder='Search'
-id="input-with-icon-textfield"
-
-InputProps={{
-style: { color: 'white' },
-endAdornment: (
-<InputAdornment position="start">
-<AccountCircleIcon style={{ color: 'white' }} />
-</InputAdornment>
-),
-
-}}
-variant="filled"
-/>
-
-
-
-
-<Box sx={{
-display: "flex",
-flexDirection: "column",
-overflowY: "scroll",
-height: "100vh"
-}}>
-
-
-{
-  conversation.map((user, i) => (
-    <div key={i} onClick={() => dispatch(setCurrentChat(user))}>
-      <Conversation user={user} />
-    </div>
-  ))
+if(userData){
+  return (
+    <aside style={{
+    position: "relative",
+    
+    
+    
+    }}>
+    <Box sx={{
+    position: "fixed",
+    maxWidth: "100%",
+    marginX: "2rem"
+    }} >
+    
+    
+    
+    <TextField sx={{
+    width: "100%",
+    height: "fit-content",
+    
+    
+    }}
+    autoComplete='off'
+    placeholder='Search'
+    id="input-with-icon-textfield"
+    
+    InputProps={{
+    style: { color: 'white' },
+    endAdornment: (
+    <InputAdornment position="start">
+    <AccountCircleIcon style={{ color: 'white' }} />
+    </InputAdornment>
+    ),
+    
+    }}
+    variant="filled"
+    />
+    
+    
+    
+    
+    <Box sx={{
+    display: "flex",
+    flexDirection: "column",
+    overflowY: "scroll",
+    height: "100vh"
+    }}>
+    
+    
+    {
+      conversation.map((user, i) => (
+        <div key={i} onClick={() => dispatch(setCurrentChat(user))}>
+          <Conversation user={user} />
+        </div>
+      ))
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </Box>
+    
+    <Paper sx={{
+    width: "100%",
+    padding: "1rem",
+    display: "flex",
+    alignItems: "center",
+    position: "absolute",
+    bottom: "12%",
+    left: 0,
+    background: "#636b65"
+    }}>
+    <Typography flexGrow={1} variant="body1" color="inherit">Prashant Acharya</Typography>
+    <IconButton onClick={() => navigate("/login")} aria-label="logout"  >
+    <LogoutIcon />
+    </IconButton>
+    </Paper>
+    
+    
+    
+    
+    
+    
+    
+    </Box>
+    
+    
+    
+    
+    </aside>
+    )
 }
 
-
-
-
-
-
-
-
-
-
-</Box>
-
-<Paper sx={{
-width: "100%",
-padding: "1rem",
-display: "flex",
-alignItems: "center",
-position: "absolute",
-bottom: "12%",
-left: 0,
-background: "#636b65"
-}}>
-<Typography flexGrow={1} variant="body1" color="inherit">Prashant Acharya</Typography>
-<IconButton onClick={() => navigate("/login")} aria-label="logout"  >
-<LogoutIcon />
-</IconButton>
-</Paper>
-
-
-
-
-
-
-
-</Box>
-
-
-
-
-</aside>
-)
 }
 
 export default Userlist
