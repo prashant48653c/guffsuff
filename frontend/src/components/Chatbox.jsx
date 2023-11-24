@@ -13,6 +13,7 @@ import Gif from '../getData/Gif';
 import axios from 'axios'
 import { setMessege } from '../slices/messegeSlicer';
 import Messege from './Messege';
+ 
 
 
 
@@ -23,7 +24,7 @@ const Chatbox = () => {
     const { showEmoji, showGif } = useSelector((state) => state.toggle)
     const { currentChat, messege } = useSelector(state => state.conversation)
     const { userData } = useSelector((state) => state.auth)
-const [presentChat,setPresentChat]=useState([])
+const [presentChat,setPresentChat]=useState('')
     const emojiShow = () => {
 
         if (showEmoji == false) {
@@ -35,12 +36,20 @@ const [presentChat,setPresentChat]=useState([])
 
         }
     }
+    const [newMessege, setNewMessege] = useState({
+        sender: userData._id,
+        messege: 'hi',
+        conversationId:''
+        
+    })
 useEffect(()=>{
-    if(currentChat){
+   
         setPresentChat(currentChat._id)
+        setNewMessege({...newMessege,sender:userData._id,conversationId:currentChat._id})
 
-    }
+    
 },[])
+
     const gifShow = () => {
         console.log("gif")
         if (showGif == false) {
@@ -65,21 +74,24 @@ useEffect(()=>{
             console.log(error)
         }
     }
+    console.log(userData)
+    
+ 
+
+const updateMessege=(e)=>{
+    e.preventDefault()
+setNewMessege({...newMessege,messege:e.target.value})
+    console.log("Messege upadated", newMessege)
+}
+   
+ 
+  
     useEffect(() => {
+        
         getMessege()
     }, [])
-    const [newMessege, setNewMessege] = useState({
-        senderId: userData._id,
-        messege: 'hi',
-        conversationId:presentChat
-        
-    })
- 
-    const updateMessege=(e)=>{
-        e.preventDefault()
-        setNewMessege({ ...newMessege, message: e.target.value })
-    }
     const submitMessege = async () => {
+       console.log(newMessege,"newmessege")
         const response = await axios.post("http://localhost:4000/write", newMessege)
 console.log(response)
     }
@@ -121,6 +133,7 @@ console.log(response)
                 }}>
                     {
                         messege.map((elem, i) => {
+                            console.log(elem,"mess")
                             return (
                                 <Messege mes={elem} key={i} own={elem._id === userData._id} />
 

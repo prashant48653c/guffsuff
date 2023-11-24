@@ -169,6 +169,7 @@ router.post('/write', async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ messege: "cannot send messege" })
+        console.log(error)
     }
 
 

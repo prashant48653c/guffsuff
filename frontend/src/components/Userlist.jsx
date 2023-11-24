@@ -17,7 +17,7 @@ const navigate = useNavigate()
 const dispatch = useDispatch()
 const { userData } = useSelector((state) => state.auth)
 const { conversation } = useSelector((state) => state.conversation)
-console.log(userData)
+ 
 const getUserData = async () => {
 
 const response = await axios.get("http://localhost:4000/getdata", {
