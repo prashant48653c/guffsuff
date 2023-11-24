@@ -7,6 +7,8 @@ export const messegeSlicer = createSlice({
   initialState:{
     messege:[],
     conversation:[],
+    currentChat:null,
+   
   },
   reducers: {
     
@@ -16,10 +18,13 @@ export const messegeSlicer = createSlice({
     setConversation: (state, action) => {
         state.conversation = action.payload
       },
+      setCurrentChat: (state, action) => {
+        state.currentChat = action.payload
+      },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setConversation,setMessege } = messegeSlicer.actions
+export const { setConversation,setMessege,setCurrentChat } = messegeSlicer.actions
 
 export default messegeSlicer.reducer

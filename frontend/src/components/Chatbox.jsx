@@ -19,11 +19,11 @@ import Gif from '../getData/Gif';
 
 const dispatch=useDispatch()
 const {showEmoji,showGif}=useSelector((state)=>state.toggle)
-
+const {currentChat}=useSelector(state => state.conversation)
  
 
 const emojiShow=()=>{
-    console.log("emoji")
+   
     if(showEmoji==false){
         dispatch(setShowGif(false))
         dispatch(setShowEmoji(true))
@@ -46,16 +46,17 @@ const gifShow=()=>{
 
     }
 }
+console.log(currentChat)
 
-
-        return (
+if(currentChat){
+    return (
         <Box pl={1}  >
 
         <AppBar elevation={0} sx={{
             background:"#595f69"
         }} position='sticky'>
         <Toolbar >
-        <Typography flexGrow={1}  variant="h6" color="inherit">Jasmin Rijal</Typography>
+        <Typography flexGrow={1}  variant="h6" color="inherit">{currentChat.firstname}</Typography>
 
        <Stack flexDirection={'row'}  flexGrow={0} >
 
@@ -160,6 +161,20 @@ showGif &&
 
         </Box>
         )
+}else{
+    return(
+        <Box sx={{
+            width:"100%",
+            height:"100vh",
+            fontSize:"4rem",
+            justifyContent:"center",
+            display:"flex",
+            textAlign:"center",
+            alignItems:"center"
+        }} >You are lonely just like the developer</Box>
+    )
+}
+      
         }
 
         export default Chatbox

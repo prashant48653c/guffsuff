@@ -91,11 +91,12 @@ router.get("/getdata", Authenticate, async (req, res) => {
 
 
 //get all user
-router.get("/alluser", async (req, res) => {
-
+router.get("/friendid/:friendId", async (req, res) => {
+const friend_id= req.params.friendId
+console.log(friend_id)
     try {
 
-        const alluser = await UserModel.find({});
+        const alluser = await UserModel.findById({_id:friend_id});
 
         res.status(200).json({ messege: alluser })
     } catch (err) {
@@ -137,7 +138,7 @@ router.post('/connect', async (req, res) => {
 })
 //get the conversation of the user with userId
 
-router.get('/conversation', async (req, res) => {
+router.get('/conversation/:userId', async (req, res) => {
 
 
     try {
@@ -145,11 +146,12 @@ router.get('/conversation', async (req, res) => {
             members: { $in: [req.params.userId] }
         })
 
-        res.status(200).json({ messege: conversation })
+        res.status(200).json({ data: conversation })
 
 
     } catch (error) {
         res.status(500).json({ messege: "cannot found the conversation" })
+        console.log(error)
     }
 
 
