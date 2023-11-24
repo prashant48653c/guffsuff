@@ -7,6 +7,7 @@ import { setFriendData } from '../slices/authSlicer'
 const Conversation = ({user}) => {
     const dispatch=useDispatch()
     const { userData ,friendData} = useSelector((state) => state.auth)
+    
     const getFriendData=async()=>{
         const response=await axios.get("http://localhost:4000/friendid/655f592eb1a7989a1570dbff")
         const data=response.data.messege
