@@ -1,5 +1,5 @@
 import { Box, InputAdornment, Paper, TextField, Typography, IconButton } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../slices/authSlicer';
 import { setConversation, setCurrentChat, setMessege } from '../slices/messegeSlicer';
 import Conversation from './Conversation';
+import {io} from 'socket.io-client'
 
 
 const Userlist = () => {
@@ -18,6 +19,11 @@ const dispatch = useDispatch()
 const { userData } = useSelector((state) => state.auth)
 const { conversation,currentChat } = useSelector((state) => state.conversation)
  
+
+
+
+
+
 const getUserData = async () => {
 
 const response = await axios.get("http://localhost:4000/getdata", {
@@ -46,8 +52,9 @@ console.log(error)
 const getMessege = async (e,user) => {
   e.preventDefault()
   try {
+    let cur=await user
       let id=await user._id
-     dispatch(setCurrentChat(id))
+     dispatch(setCurrentChat(cur))
 
        
   const response = await axios.get(`http://localhost:4000/messege/${id}`)  //conversation id
@@ -68,9 +75,9 @@ getUserData()
 getUserConversation()
 
 }, [])
-console.log(conversation)
+ 
 
-if(userData  ){
+if(userData){
   return (
     <aside style={{
     position: "relative",
