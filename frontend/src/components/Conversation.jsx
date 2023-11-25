@@ -6,23 +6,26 @@ import { setFriendData } from '../slices/authSlicer'
 
 const Conversation = ({user}) => {
     const dispatch=useDispatch()
-    const { userData ,friendData} = useSelector((state) => state.auth)
-    
-    const getFriendData=async()=>{
-        const response=await axios.get("http://localhost:4000/friendid/656087a45967f380b625f77b") //your selected conversation friend id friendId
+    const { userData } = useSelector((state) => state.auth)
+ const [friendData,setFriendData]=useState([])
+    const getFriendData=async(friendId)=>{
+        console.log(friendId)
+        const response=await axios.get(`http://localhost:4000/friendid/${friendId}`) //your selected conversation friend id friendId
         const data=response.data.messege
-        dispatch(setFriendData(data))
-        console.log(friendData)
+        setFriendData(data)
+      
     }
     useEffect(()=>{
-        getFriendData()
+       
         if(user.members){
             const friendId=user.members.find((id)=> id !== userData._id)
-            console.log(friendId)
+            getFriendData(friendId)
+           
         }
       
        
     },[])
+    console.log(friendData)
 
     if(friendData){
         return (

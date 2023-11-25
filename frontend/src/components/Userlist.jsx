@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../slices/authSlicer';
-import { setConversation, setCurrentChat } from '../slices/messegeSlicer';
+import { setConversation, setCurrentChat, setMessege } from '../slices/messegeSlicer';
 import Conversation from './Conversation';
 
 
@@ -16,7 +16,7 @@ const Userlist = () => {
 const navigate = useNavigate()
 const dispatch = useDispatch()
 const { userData } = useSelector((state) => state.auth)
-const { conversation } = useSelector((state) => state.conversation)
+const { conversation,currentChat } = useSelector((state) => state.conversation)
  
 const getUserData = async () => {
 
@@ -35,7 +35,7 @@ dispatch(setUserData(data))
 
 const getUserConversation = async () => {
 try {
-const response = await axios.get(`http://localhost:4000/conversation/6560877b5967f380b625f779`) //your user id
+const response = await axios.get(`http://localhost:4000/conversation/${userData._id}`) //your user id
 const data = response.data.data
 dispatch(setConversation(data))
 
@@ -43,7 +43,23 @@ dispatch(setConversation(data))
 console.log(error)
 }
 }
- 
+const getMessege = async () => {
+  try {
+      let id=await currentChat._id
+      console.log(id)
+  const response = await axios.get(`http://localhost:4000/messege/${id}`)  //conversation id
+  const data = response.data.messege
+  dispatch(setMessege(data))
+   
+  
+  } catch (error) {
+  console.log(error)
+  }
+  }
+  const getAllMessege=async(e,user)=>{
+    dispatch(setCurrentChat(user))
+    getMessege()
+  }
 
 
 useEffect(() => {
@@ -52,7 +68,7 @@ getUserConversation()
 
 }, [])
 
-if(userData){
+if(userData ){
   return (
     <aside style={{
     position: "relative",
@@ -102,12 +118,13 @@ if(userData){
     
     
     {
-      conversation.map((user, i) => (
-        <div key={i} onClick={() => dispatch(setCurrentChat(user))}>
-          <Conversation user={user} />
-        </div>
-      ))
-    }
+  conversation.map((user, i) => (
+    <div key={i} onClick={(e,user)=>getAllMessege(e,user)}>
+      <Conversation user={user} />
+    </div>
+  ))
+}
+
     
     
     
