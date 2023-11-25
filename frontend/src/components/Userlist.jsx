@@ -70,7 +70,7 @@ getUserConversation()
 }, [])
 console.log(conversation)
 
-if(userData && conversation ){
+if(userData  ){
   return (
     <aside style={{
     position: "relative",
