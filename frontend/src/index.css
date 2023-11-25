@@ -60,3 +60,26 @@
 
  }
  
+/* For WebKit browsers (e.g., Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #323645; /* Set your desired color */
+}
+
+ 
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:#c3c1bd; /* Set your desired color */
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+}

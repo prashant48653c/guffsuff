@@ -7,7 +7,7 @@ export const messegeSlicer = createSlice({
   initialState:{
     messege:[],
     conversation:[],
-    currentChat:null,
+    currentChat:[],
    
   },
   reducers: {

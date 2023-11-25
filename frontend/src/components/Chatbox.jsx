@@ -22,10 +22,11 @@ const Chatbox = () => {
 
 const dispatch = useDispatch()
 const { showEmoji, showGif } = useSelector((state) => state.toggle)
-const { currentChat } = useSelector(state => state.conversation)
-const [messege,setmessege]=useState([])
+const { currentChat,messege } = useSelector(state => state.conversation)
+ 
 const { userData } = useSelector((state) => state.auth)
 const [presentChat,setPresentChat]=useState('')
+
 const emojiShow = () => {
 
 if (showEmoji == false) {
@@ -44,17 +45,15 @@ conversationId:''
 
 })
 useEffect(()=>{
+ 
  if(currentChat){
     console.log(currentChat._id)
     setPresentChat(currentChat._id)
-    setNewMessege({...newMessege,sender:userData._id,conversationId:currentChat._id})
-     
-    
-    
+    setNewMessege({...newMessege,sender:userData._id,conversationId:currentChat})
+   
  }
- 
 
-},[])
+},[currentChat])
 
 const gifShow = () => {
 console.log("gif")
@@ -69,19 +68,7 @@ dispatch(setShowGif(false))
 }
 }
 
-const getMessege = async () => {
-try {
-    let id=await currentChat._id
-    console.log(id)
-const response = await axios.get(`http://localhost:4000/messege/${id}`)  //conversation id
-const data = response.data.messege
-setmessege(data)
- 
 
-} catch (error) {
-console.log(error)
-}
-}
 
 
 
@@ -94,15 +81,14 @@ setNewMessege({...newMessege,messege:e.target.value})
 
 
 
-useEffect(() => {
-
-getMessege()
-}, [])
+ 
 const submitMessege = async () => {
 console.log(newMessege,"newmessege")
 const response = await axios.post("http://localhost:4000/write", newMessege)
  console.log(response)
 }
+
+console.log(presentChat,currentChat)
 
 if (currentChat) {
 return (
@@ -141,9 +127,9 @@ padding: "2rem 0"
 }}>
 {
 messege.map((elem, i) => {
- 
+ console.log(elem.sender + "is " + userData._id)
 return (
-<Messege mes={elem} key={i} own={elem._id === userData._id} />
+<Messege mes={elem} key={i} own={elem.sender == userData._id} />
 
 )
 })

@@ -43,23 +43,24 @@ dispatch(setConversation(data))
 console.log(error)
 }
 }
-const getMessege = async () => {
+const getMessege = async (e,user) => {
+  e.preventDefault()
   try {
-      let id=await currentChat._id
-      console.log(id)
+      let id=await user._id
+     dispatch(setCurrentChat(id))
+
+       
   const response = await axios.get(`http://localhost:4000/messege/${id}`)  //conversation id
   const data = response.data.messege
+  console.log(data)
   dispatch(setMessege(data))
-   
+    
   
   } catch (error) {
   console.log(error)
   }
   }
-  const getAllMessege=async(e,user)=>{
-    dispatch(setCurrentChat(user))
-    getMessege()
-  }
+ 
 
 
 useEffect(() => {
@@ -67,8 +68,9 @@ getUserData()
 getUserConversation()
 
 }, [])
+console.log(conversation)
 
-if(userData ){
+if(userData && conversation ){
   return (
     <aside style={{
     position: "relative",
@@ -119,7 +121,7 @@ if(userData ){
     
     {
   conversation.map((user, i) => (
-    <div key={i} onClick={(e,user)=>getAllMessege(e,user)}>
+    <div key={i} onClick={(e)=>getMessege(e,user)}>
       <Conversation user={user} />
     </div>
   ))

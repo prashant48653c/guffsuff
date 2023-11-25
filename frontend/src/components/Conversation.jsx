@@ -5,9 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setFriendData } from '../slices/authSlicer'
 
 const Conversation = ({user}) => {
+
     const dispatch=useDispatch()
+
     const { userData } = useSelector((state) => state.auth)
+
  const [friendData,setFriendData]=useState([])
+
     const getFriendData=async(friendId)=>{
         console.log(friendId)
         const response=await axios.get(`http://localhost:4000/friendid/${friendId}`) //your selected conversation friend id friendId
@@ -58,6 +62,12 @@ const Conversation = ({user}) => {
                 </div>
             </Box>
           )
+    }else{
+        return(
+            <>
+            <div>Loading</div>
+            </>
+        )
     }
 
 }
