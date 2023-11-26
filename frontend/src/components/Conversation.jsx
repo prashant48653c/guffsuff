@@ -31,7 +31,7 @@ const Conversation = ({user}) => {
     },[])
     console.log(friendData)
 
-    if(friendData){
+    
         return (
             <Box  sx={{
                 padding: ".7rem",
@@ -62,14 +62,6 @@ const Conversation = ({user}) => {
                 </div>
             </Box>
           )
-    }else{
-        return(
-            <>
-            <div>Loading</div>
-            </>
-        )
-    }
-
-}
+    } 
 
 export default Conversation

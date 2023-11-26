@@ -1,5 +1,5 @@
 import { Box, InputAdornment, Paper, TextField, Typography, IconButton } from '@mui/material'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
@@ -67,7 +67,7 @@ const getMessege = async (e,user) => {
   console.log(error)
   }
   }
- 
+ const [show,setShow]=useState(false)
 
 
 useEffect(() => {
@@ -75,9 +75,10 @@ getUserData()
 getUserConversation()
 
 }, [])
- 
 
-if(userData){
+ console.log("first")
+
+ if(userData ){
   return (
     <aside style={{
     position: "relative",
@@ -127,11 +128,13 @@ if(userData){
     
     
     {
-  conversation.map((user, i) => (
-    <div key={i} onClick={(e)=>getMessege(e,user)}>
-      <Conversation user={user} />
-    </div>
-  ))
+    ( 
+    conversation.map((user, i) => (
+      <div key={i} onClick={(e) => getMessege(e, user)}>
+        <Conversation user={user} />
+      </div>
+    ))
+  ) 
 }
 
     
@@ -175,8 +178,10 @@ if(userData){
     
     </aside>
     )
-}
+ }
 
 }
+
+
 
 export default Userlist

@@ -33,31 +33,47 @@ const Chatbox = () => {
 
 
    const socket = useRef()
+
    useEffect(() => {
-      socket.current = io("ws://localhost:3000")
+      if(userData){
+         socket.current = io("ws://localhost:3000")
+         socket.current.emit("addUser", userData._id)  //send to server
+         socket.current.on("getUser", (users) => {
+            console.log(users, "something")
+         })
+      }
+     
+
+
+   }, [])
+
+   useEffect(() => {
+     
+    if(userData){
       socket.current.on("getMessege", (data) => {
          setArrivalMessege({
             sender: data.senderId,
             messege: data.text
          })
       })
+    }
+     
    }, [])
+    
 
    useEffect(() => {
-      arrivalMessege && currentChat?.members.includes(arrivalMessege.sender)
-      setNewMessege((prev) => [...prev, { ...arrivalMessege }]);
+      if(arrivalMessege){
+         let cChat=currentChat
+         console.log(arrivalMessege,cChat,newMessege)
+         arrivalMessege && cChat?.members.includes(arrivalMessege.sender)
+         setNewMessege((prev) => [...prev, { ...arrivalMessege }]);
+      }
+     
 
    }, [arrivalMessege, currentChat])
 
 
-   useEffect(() => {
-      socket.current.emit("addUser", userData)  //send to server
-      socket.current.on("getUsers", (users) => {
-         console.log(users, "something")
-      })
-
-
-   }, [userData])
+   
 
 
 
@@ -125,7 +141,7 @@ const Chatbox = () => {
 
 
 
-   const submitMessege = async () => {
+   const submitMessege = async (e) => {
       const receiver = currentChat.members.find(id => id !== userData._id)
       setNewMessege({ sender: userData._id, messege: e.target.value, conversationId: currentChat._id })
       socket.current.emit("sendMessege", {
