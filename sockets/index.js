@@ -1,5 +1,4 @@
-// index.js
-
+ 
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
@@ -17,63 +16,50 @@ const io = new Server(httpServer, {
 });
 
 
-
-
-let users = []
-
+let users = [];
 
 const addUser = (userId, socketId) => {
-  console.log(users)
-  !users.some(user => user.userId === userId) &&
-    users.push({ userId, socketId })
-    console.log(users)
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
  
-}
+};
 
 const removeUser = (socketId) => {
-  users = users.filter(user => socketId !== user.socketId)
-}
+  users = users.filter((user) => user.socketId !== socketId);
+};
 
-const getUser = async (userId) => {
- 
-console.log(userId+ ' is the receiver id'+users[0])
-  let myuser = await users.find((user) => user.userId === userId)
-  return myuser
-}
-
+const getUser = (userId) => {
+  
+  return users.find((user) => user.userId === userId);
+};
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
- 
+  //when ceonnect
+  console.log("a user connected.");
+
+  //take userId and socketId from user
   socket.on("addUser", (userId) => {
-    addUser(userId, socket.id)
-    io.emit("getUser", users)
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
   });
 
+  //send and get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    io.to(user.socketId).emit("getMessage", {
+      senderId,
+      text,
+    });
+  });
 
-  //send messege
-  socket.on("sendMessege", async ({ userId, receiverId, messege }) => { //userid is sender id
-
-    const user = await getUser(receiverId)
-    
-    io.to(user.socketId).emit("getMessege", {
-      userId, messege
-    })
-  })
-
+  //when disconnect
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
-    removeUser(socket.id)
-    io.emit("getUser", users)
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    io.emit("getUsers", users);
   });
-
 });
-// setInterval(()=>{
-//   console.log(users)
-// },5000)
 
-const PORT = 3000;
-
-httpServer.listen(PORT, () => {
-  console.log(`Socket server started on http://localhost:${PORT}`);
-});
+httpServer.listen(3000,()=>{
+  console.log("Listening")
+})

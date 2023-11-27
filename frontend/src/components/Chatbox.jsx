@@ -39,14 +39,14 @@ const Chatbox = () => {
          socket.current = io("ws://localhost:3000")
          socket.current.emit("addUser", userData._id)  //send to server
          socket.current.on("getUser", (users) => {
-            console.log(users, "something")
+            console.log(users  )
          })
       }
      
 
 
    }, [])
-
+   console.log(socket.current)
    useEffect(() => {
      
     if(userData){
@@ -148,7 +148,7 @@ const Chatbox = () => {
 
          userId: userData._id,
          receiverId: receiver,
-         text: newMessege.messege
+         messege: newMessege.messege
       })
       console.log(newMessege, "newmessege")
       const response = await axios.post("http://localhost:4000/write", newMessege)
@@ -157,7 +157,7 @@ const Chatbox = () => {
 
    console.log(presentChat, currentChat)
 
-   if (currentChat) {
+   if (currentChat && messege) {
       return (
          <Box pl={1}  >
 

@@ -67,7 +67,7 @@ const getMessege = async (e,user) => {
   console.log(error)
   }
   }
- const [show,setShow]=useState(false)
+ 
 
 
 useEffect(() => {
@@ -76,9 +76,9 @@ getUserConversation()
 
 }, [])
 
- console.log("first")
-
- if(userData ){
+ 
+console.log("first")
+ if(userData && conversation ){
   return (
     <aside style={{
     position: "relative",
