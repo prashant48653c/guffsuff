@@ -37,41 +37,41 @@ const Chatbox = () => {
    useEffect(() => {
       if(userData){
          socket.current = io("ws://localhost:3000")
+         socket.current.on("getMessege", (data) => {
+            console.log(data,"messege from server")
+         })
+       
+      }
+     
+
+
+   }, [])
+
+   useEffect(() => {
+   
+         let cChat=currentChat
+         console.log(arrivalMessege)
+         arrivalMessege && cChat?.members.includes(arrivalMessege.sender)
+         setMessege((prev) => [...prev, { ...arrivalMessege }]);
+
+     
+
+   }, [arrivalMessege,currentChat])
+
+   useEffect(()=>{
+      if(userData){
          socket.current.emit("addUser", userData._id)  //send to server
          socket.current.on("getUser", (users) => {
-            console.log(users  )
+            console.log(users,"User from socket"  )
          })
       }
      
-
-
-   }, [])
+   },[])
    console.log(socket.current)
-   useEffect(() => {
-     
-    if(userData){
-      socket.current.on("getMessege", (data) => {
-         setArrivalMessege({
-            sender: data.senderId,
-            messege: data.text
-         })
-      })
-    }
-     
-   }, [])
+ 
     
 
-   useEffect(() => {
-      if(arrivalMessege){
-         let cChat=currentChat
-         console.log(arrivalMessege,cChat,newMessege)
-         arrivalMessege && cChat?.members.includes(arrivalMessege.sender)
-         setNewMessege((prev) => [...prev, { ...arrivalMessege }]);
-      }
-     
-
-   }, [arrivalMessege, currentChat])
-
+ 
 
    
 
@@ -98,6 +98,20 @@ const Chatbox = () => {
       }
    }
 
+   const gifShow = () => {
+      console.log("gif")
+      if (showGif == false) {
+         dispatch(setShowEmoji(false))
+         dispatch(setShowGif(true))
+      
+
+      } else {
+         dispatch(setShowGif(false))
+
+      }
+   }
+
+
    const [newMessege, setNewMessege] = useState({
       sender: userData._id,
       messege: 'hi',
@@ -114,19 +128,7 @@ const Chatbox = () => {
 
    }, [currentChat])
 
-   const gifShow = () => {
-      console.log("gif")
-      if (showGif == false) {
-         dispatch(setShowEmoji(false))
-         dispatch(setShowGif(true))
-         console.log("aayo")
-
-      } else {
-         dispatch(setShowGif(false))
-
-      }
-   }
-
+  
 
 
 
@@ -142,20 +144,22 @@ const Chatbox = () => {
 
 
    const submitMessege = async (e) => {
-      const receiver = currentChat.members.find(id => id !== userData._id)
-      setNewMessege({ sender: userData._id, messege: e.target.value, conversationId: currentChat._id })
-      socket.current.emit("sendMessege", {
+      const receiverId = currentChat.members.find(id => id !== userData._id);
+      setNewMessege(prevMessege => ({
+         ...prevMessege,    
+         messege: e.target.value
+      }));
+    await socket.current.emit('sendMessage',{
+      senderId:userData._id,
+      receiverId,
+      messege:newMessege.messege
 
-         userId: userData._id,
-         receiverId: receiver,
-         messege: newMessege.messege
-      })
-      console.log(newMessege, "newmessege")
+     })
       const response = await axios.post("http://localhost:4000/write", newMessege)
       console.log(response)
    }
 
-   console.log(presentChat, currentChat)
+   console.log( currentChat)
 
    if (currentChat && messege) {
       return (
