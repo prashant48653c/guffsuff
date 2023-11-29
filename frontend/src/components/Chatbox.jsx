@@ -35,17 +35,27 @@ const Chatbox = () => {
    const socket = useRef()
 
    useEffect(() => {
-      if(userData){
-         socket.current = io("ws://localhost:3000")
-         socket.current.on("getMessege", (data) => {
-            console.log(data,"messege from server")
-         })
-       
+      if (userData && socket.current === undefined) {
+          socket.current = io("ws://localhost:3000");
+          socket.current.on("connect", () => {
+              console.log("Socket connected");
+          });
+  
+          socket.current.on("getMessage", (data) => {
+              console.log(data.messege, "message from server");
+              setArrivalMessege(data.messege);
+          });
       }
-     
-
-
-   }, [])
+  
+      return () => {
+          // Disconnect the socket when the component is unmounted
+          if (socket.current) {
+              socket.current.disconnect();
+          }
+      };
+  }, [userData,presentChat]);
+  
+ 
 
    useEffect(() => {
    
@@ -86,30 +96,7 @@ const Chatbox = () => {
 
 
    ////////////////////////////////////////////
-   const emojiShow = () => {
-
-      if (showEmoji == false) {
-         dispatch(setShowGif(false))
-         dispatch(setShowEmoji(true))
-
-      } else {
-         dispatch(setShowEmoji(false))
-
-      }
-   }
-
-   const gifShow = () => {
-      console.log("gif")
-      if (showGif == false) {
-         dispatch(setShowEmoji(false))
-         dispatch(setShowGif(true))
-      
-
-      } else {
-         dispatch(setShowGif(false))
-
-      }
-   }
+  
 
 
    const [newMessege, setNewMessege] = useState({
@@ -157,9 +144,34 @@ const Chatbox = () => {
      })
       const response = await axios.post("http://localhost:4000/write", newMessege)
       console.log(response)
+      setPresentChat(response)
    }
 
-   console.log( currentChat)
+    /////////////////
+    const emojiShow = () => {
+
+      if (showEmoji == false) {
+         dispatch(setShowGif(false))
+         dispatch(setShowEmoji(true))
+
+      } else {
+         dispatch(setShowEmoji(false))
+
+      }
+   }
+
+   const gifShow = () => {
+      console.log("gif")
+      if (showGif == false) {
+         dispatch(setShowEmoji(false))
+         dispatch(setShowGif(true))
+      
+
+      } else {
+         dispatch(setShowGif(false))
+
+      }
+   }
 
    if (currentChat && messege) {
       return (
@@ -198,7 +210,7 @@ const Chatbox = () => {
             }}>
                {
                   messege.map((elem, i) => {
-                     console.log(elem.sender + "is " + userData._id)
+                  
                      return (
                         <Messege mes={elem} key={i} own={elem.sender == userData._id} />
 

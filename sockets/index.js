@@ -44,13 +44,14 @@ io.on("connection", (socket) => {
   });
 
   //send and get message
-  socket.on("sendMessage", ({ senderId, receiverId, messege }) => {
-    const user = getUser(receiverId);
+  socket.on("sendMessage", async({ senderId, receiverId, messege }) => {
+    const user =await getUser(receiverId);
     io.to(user.socketId).emit("getMessage", {
       senderId,
       messege,
     });
-   
+ 
+    console.log(`Received message from ${senderId} to ${receiverId}: ${messege}`);
  
   });
 
