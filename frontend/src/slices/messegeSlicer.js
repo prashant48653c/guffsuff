@@ -1,30 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
- 
-
-export const messegeSlicer = createSlice({
+export const messegeSlice = createSlice({
   name: 'toggle',
-  initialState:{
-    messege:[],
-    conversation:[],
-    currentChat:[],
-   
+  initialState: {
+    messege: [],
+    conversation: [],
+    currentChat: [],
   },
   reducers: {
-    
     setMessege: (state, action) => {
-      state.messege = action.payload
+      // Check if the payload is a function before executing it
+      if (typeof action.payload === 'function') {
+        state.messege = action.payload(state.messege);
+      }else{
+        state.messege =action.payload
+      }
     },
     setConversation: (state, action) => {
-        state.conversation = action.payload
-      },
-      setCurrentChat: (state, action) => {
-        state.currentChat = action.payload
-      },
+      state.conversation = action.payload;
+    },
+    setCurrentChat: (state, action) => {
+      state.currentChat = action.payload;
+    },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { setConversation,setMessege,setCurrentChat } = messegeSlicer.actions
+export const { setConversation, setMessege, setCurrentChat } = messegeSlice.actions;
 
-export default messegeSlicer.reducer
+export default messegeSlice.reducer;

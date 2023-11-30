@@ -23,50 +23,47 @@ const Chatbox = () => {
    const dispatch = useDispatch()
    const { showEmoji, showGif } = useSelector((state) => state.toggle)
    const { currentChat, messege } = useSelector(state => state.conversation)
-   const [arrivalMessege, setArrivalMessege] = useState(null)
+   const [arrivalMessage, setArrivalMessage] = useState(null)
    const { userData } = useSelector((state) => state.auth)
    const [presentChat, setPresentChat] = useState('')
-
+ 
 
 
    //socket things
 
 
    const socket = useRef()
-
    useEffect(() => {
       if (userData && socket.current === undefined) {
-          socket.current = io("ws://localhost:3000");
-          socket.current.on("connect", () => {
-              console.log("Socket connected");
-          });
-  
-          socket.current.on("getMessage", (data) => {
-              console.log(data.messege, "message from server");
-              setArrivalMessege(data.messege);
-          });
-      }
-  
-      return () => {
-          // Disconnect the socket when the component is unmounted
-          if (socket.current) {
-              socket.current.disconnect();
+        socket.current = io("ws://localhost:3000");
+        
+        socket.current.on("connection", () => {
+          console.log("Socket connected");
+        });
+    
+        socket.current.on("getMessage", async (data) => {
+          if (data.messege) {
+            setArrivalMessage({
+               sender: data.senderId,
+               messege: data.messege,
+               createdAt: Date.now(),
+             });
           }
-      };
-  }, [userData,presentChat]);
-  
- 
-
-   useEffect(() => {
+        });
+      }
+    
    
-         let cChat=currentChat
-         console.log(arrivalMessege)
-         arrivalMessege && cChat?.members.includes(arrivalMessege.sender)
-         setMessege((prev) => [...prev, { ...arrivalMessege }]);
+    }, [userData, currentChat, messege, dispatch]);
+    
 
-     
-
-   }, [arrivalMessege,currentChat])
+    useEffect(() => {
+      if(arrivalMessage && currentChat){
+      console.log(arrivalMessage,"new messege "+"current chat"+currentChat.members)
+        currentChat?.members.includes(arrivalMessage.sender) &&
+        dispatch(setMessege((prev) => [...prev, arrivalMessage]));
+        console.log(messege)
+      }
+    }, [arrivalMessage, currentChat]);
 
    useEffect(()=>{
       if(userData){
@@ -76,10 +73,10 @@ const Chatbox = () => {
          })
       }
      
-   },[])
+   },[currentChat])
    console.log(socket.current)
  
-    
+ 
 
  
 
@@ -108,7 +105,7 @@ const Chatbox = () => {
    useEffect(() => {
 
       if (currentChat) {
-        
+        setPresentChat("lol")
          setNewMessege({ ...newMessege, sender: userData._id, conversationId: currentChat._id })
 
       }
@@ -144,9 +141,7 @@ const Chatbox = () => {
      })
       const response = await axios.post("http://localhost:4000/write", newMessege)
       console.log(response)
-      setPresentChat(response)
    }
-
     /////////////////
     const emojiShow = () => {
 
@@ -173,6 +168,15 @@ const Chatbox = () => {
       }
    }
 
+
+   useEffect(() => {
+       
+      const chatContainer = document.getElementById('div-messege-container');
+      if (chatContainer) {
+         chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+   }, [messege]); 
+ 
    if (currentChat && messege) {
       return (
          <Box pl={1}  >
@@ -202,7 +206,7 @@ const Chatbox = () => {
 
             </AppBar>
 
-            <div style={{
+            <div id='div-messege-container' style={{
                overflowY: "scroll",
                height: "77vh",
                padding: "2rem 0"

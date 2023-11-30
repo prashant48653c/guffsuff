@@ -44,17 +44,31 @@ io.on("connection", (socket) => {
   });
 
   //send and get message
-  socket.on("sendMessage", async({ senderId, receiverId, messege }) => {
-    const user =await getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
-      senderId,
-      messege,
-    });
- 
-    console.log(`Received message from ${senderId} to ${receiverId}: ${messege}`);
- 
+  socket.on("sendMessage", async ({ senderId, receiverId, messege }) => {
+    const userReceiver = await getUser(receiverId);
+    const userSender = await getUser(senderId);
+  
+    if (userReceiver) {
+      io.to(userReceiver.socketId).emit("getMessage", {
+        senderId,
+        messege,
+      });
+      console.log(`Sent message from ${senderId} to ${receiverId}: ${messege}`);
+    } else {
+      console.log("Receiver is offline for now");
+    }
+  
+    if (userSender) {
+      io.to(userSender.socketId).emit("getMessage", {
+        senderId,
+        messege,
+      });
+      console.log(`Sent message from ${senderId} to self: ${messege}`);
+    } else {
+      console.log("Sender is offline for now");
+    }
   });
-
+  
   //when disconnect
   socket.on("disconnect", () => {
     console.log("a user disconnected!");

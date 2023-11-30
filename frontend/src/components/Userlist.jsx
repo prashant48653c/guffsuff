@@ -84,7 +84,7 @@ const Userlist = () => {
   }
 
 
-
+ 
 
 
 
@@ -189,6 +189,8 @@ const Userlist = () => {
 
       </aside>
     )
+  }else{
+    navigate("/login")
   }
 
 }
