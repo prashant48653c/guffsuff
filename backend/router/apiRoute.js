@@ -184,7 +184,7 @@ router.get('/messege/:conversationId', async (req, res) => {
     try {
         const allmessege = await MessegeModel.find({
             conversationId: { $in: [req.params.conversationId] }
-        })
+        }).limit(50)
 
         res.status(200).json({ messege: allmessege })
 
