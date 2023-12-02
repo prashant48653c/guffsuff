@@ -11,7 +11,7 @@ import Emoji from '../getData/emoji';
 import { useDispatch, useSelector } from 'react-redux';
 import Gif from '../getData/Gif';
 import axios from 'axios'
-import { setMessege } from '../slices/messegeSlicer';
+import { setEmoGif, setMessege } from '../slices/messegeSlicer';
 import Messege from './Messege';
 import { io } from 'socket.io-client'
 
@@ -22,7 +22,7 @@ const Chatbox = () => {
 
    const dispatch = useDispatch()
    const { showEmoji, showGif } = useSelector((state) => state.toggle)
-   const { currentChat, messege } = useSelector(state => state.conversation)
+   const { currentChat, messege,emoGif } = useSelector(state => state.conversation)
    const [arrivalMessage, setArrivalMessage] = useState(null)
    const { userData } = useSelector((state) => state.auth)
    const [presentChat, setPresentChat] = useState('')
@@ -48,6 +48,7 @@ const Chatbox = () => {
                messege: data.messege,
                createdAt: Date.now(),
              });
+             console.log(data.messege)
           }
         });
       }
@@ -113,9 +114,42 @@ const Chatbox = () => {
    }, [currentChat])
 
   
-
+useEffect(()=>{
+if(emoGif){
+   setNewMessege({...newMessege,messege:`${newMessege.messege} ${emoGif}`})
+}
+},[emoGif])
  
+const { senderGif}=useSelector(state => state.conversation)
+ 
+useEffect(()=>{
+   if(senderGif){
+      const sendGif=async()=>{
 
+         try{
+           let giff=({...newMessege,messege:`<img src="${senderGif}" />`})
+           console.log(giff,"giff")
+           const receiverId = currentChat.members.find(id => id !== userData._id);
+
+            const response = await axios.post("http://localhost:4000/write", giff)
+            await socket.current.emit('sendMessage',{
+               senderId:userData._id,
+               receiverId,
+               messege:newMessege.messege
+         
+              })
+              console.log(arrivalMessage)
+           console.log(response.data)
+           }catch(err){
+         console.log(err)
+           }
+      }
+      sendGif()
+    
+   }
+
+
+},[senderGif])
 
 
    const updateMessege = (e) => {
@@ -135,7 +169,7 @@ const Chatbox = () => {
       const receiverId = currentChat.members.find(id => id !== userData._id);
       setNewMessege(prevMessege => ({
          ...prevMessege,    
-         messege: e.target.value
+         messege:(senderGif ? senderGif :  e.target.value)
       }));
     await socket.current.emit('sendMessage',{
       senderId:userData._id,
@@ -150,7 +184,7 @@ const Chatbox = () => {
             ...prevMessege,    
             messege:" "
          }));
-
+console.log(response)
       }
      }catch(err){
 console.log(err)

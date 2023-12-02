@@ -6,6 +6,8 @@ export const messegeSlice = createSlice({
     messege: [],
     conversation: [],
     currentChat: [],
+    emoGif:'',
+    senderGif:''
   },
   reducers: {
     setMessege: (state, action) => {
@@ -22,10 +24,16 @@ export const messegeSlice = createSlice({
     setCurrentChat: (state, action) => {
       state.currentChat = action.payload;
     },
+    setEmoGif: (state, action) => {
+      state.emoGif = action.payload;
+    },
+    setSenderGif:(state,action)=>{
+      state.senderGif = action.payload
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setConversation, setMessege, setCurrentChat } = messegeSlice.actions;
+export const { setConversation, setMessege, setCurrentChat,setEmoGif,setSenderGif } = messegeSlice.actions;
 
 export default messegeSlice.reducer;

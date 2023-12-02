@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 const Home = () => {
 
   return (
-    <Grid container  >
+    <Grid container height={"100vh"} >
         <Grid item lg={3} md={4} sm={6} xs={0}  >
         <Userlist/>
 

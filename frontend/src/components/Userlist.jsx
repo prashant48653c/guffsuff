@@ -252,7 +252,7 @@ const getConnected=async(e,user)=>{
             left: "2%",
             background: "#636b65"
           }}>
-            <Typography flexGrow={1} variant="body1" color="inherit">Prashant Acharya</Typography>
+            <Typography flexGrow={1} variant="body1" color="inherit">{userData.firstname + " "+ userData.lastname}</Typography>
             <IconButton onClick={() => navigate("/login")} aria-label="logout"  >
               <LogoutIcon />
             </IconButton>

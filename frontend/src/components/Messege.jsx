@@ -8,7 +8,8 @@ const Messege = ({mes,own}) => {
         background:own ? "#4c4c70": "#4c4c57",
         marginY:"1rem"
         }} >
-       {mes.messege}
+   
+    <img src={mes.messege} alt="" />
 
         </Box>
   )
