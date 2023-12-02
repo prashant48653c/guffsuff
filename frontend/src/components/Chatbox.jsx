@@ -114,20 +114,24 @@ const Chatbox = () => {
 
   
 
-
+ 
 
 
 
    const updateMessege = (e) => {
-      e.preventDefault()
-      setNewMessege({ ...newMessege, messege: e.target.value })
-
-   }
-
+      e.preventDefault();
+      setNewMessege({ ...newMessege, messege: e.target.value });
+   
+      if (e.key === 'Enter') {
+         submitMessege(e); // Pass the event to submitMessege
+      }
+   };
+   
 
 
 
    const submitMessege = async (e) => {
+      e.preventDefault()
       const receiverId = currentChat.members.find(id => id !== userData._id);
       setNewMessege(prevMessege => ({
          ...prevMessege,    
@@ -139,8 +143,19 @@ const Chatbox = () => {
       messege:newMessege.messege
 
      })
+     try{
       const response = await axios.post("http://localhost:4000/write", newMessege)
-      console.log(response)
+      if(response){
+         setNewMessege(prevMessege => ({
+            ...prevMessege,    
+            messege:" "
+         }));
+
+      }
+     }catch(err){
+console.log(err)
+     }
+     
    }
     /////////////////
     const emojiShow = () => {
@@ -177,7 +192,7 @@ const Chatbox = () => {
       }
    }, [messege]); 
  
-   if (currentChat && messege) {
+   if (messege[0]) {
       return (
          <Box pl={1}  >
 
@@ -233,7 +248,7 @@ const Chatbox = () => {
 
             <form >
 
-               <TextField onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
+               <TextField  onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
                   paddingRight: "1rem",
                   border: 'none',
                   outline: "none",

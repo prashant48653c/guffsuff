@@ -39,13 +39,14 @@ router.post("/signup", async (req, res) => {
 // login route for cookie
 
 router.post("/login", async (req, res) => {
-    const {  email, password } = await req.body
+  
+    
     
     try {
-
+        const {  email, password } = await req.body
         const oldUser = await UserModel.findOne({email:email})
         
-        if( oldUser.password === password){
+        if(await oldUser.password === password){
             const token=await oldUser.createAuthToken()
             res.cookie('jwtoken',token,{
                 expires:new Date(Date.now() + 3333333333333),
@@ -86,18 +87,33 @@ router.get("/getdata", Authenticate, async (req, res) => {
 
 
 
+router.get("/all", async (req, res) => {
 
+ 
+    try {
+       
+        const alluser = await UserModel.find();
+
+ 
+        res.status(200).json({ messege: alluser })
+    } catch (err) {
+        console.log(err)
+        res.status(401).json({ messege: "Unable to get all user" });
+    }
+
+})
 
 
 
 //get all user
 router.get("/friendid/:friendId", async (req, res) => {
-const friend_id= req.params.friendId
-console.log(friend_id)
+
+ 
     try {
+        const friendName=await req.params.friendId
+        const alluser = await UserModel.find({_id:friendName});
 
-        const alluser = await UserModel.findById({_id:friend_id});
-
+ 
         res.status(200).json({ messege: alluser })
     } catch (err) {
         console.log(err)
@@ -120,13 +136,16 @@ console.log(friend_id)
 
 //for user connection in socket
 router.post('/connect', async (req, res) => {
+
+    
     const newConversation = await new ConversationModel({
         members: [req.body.senderId, req.body.receiverId]
     })
+  
 
     try {
         const saveConnection = await newConversation.save()
-        res.status(201).json({ messege: "Connection established with receiver" })
+        res.status(201).json({ messege:saveConnection})
 
 
     } catch (error) {

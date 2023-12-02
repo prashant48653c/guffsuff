@@ -15,7 +15,7 @@ const Conversation = ({user}) => {
     const getFriendData=async(friendId)=>{
         console.log(friendId)
         const response=await axios.get(`http://localhost:4000/friendid/${friendId}`) //your selected conversation friend id friendId
-        const data=response.data.messege
+        const data=response.data.messege[0]
         setFriendData(data)
       
     }
@@ -32,7 +32,7 @@ const Conversation = ({user}) => {
     console.log(friendData)
 
     
-        return (
+   return (
             <Box  sx={{
                 padding: ".7rem",
                 display: "flex",
@@ -56,12 +56,14 @@ const Conversation = ({user}) => {
                     }} src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
                 </div>
                 <div >
-                    <Typography variant="body1" color="inherit">{friendData.firstname}</Typography>
+                    <Typography variant="body1" color="inherit">{friendData.firstname + " "+ friendData.lastname}</Typography>
                     <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
         
                 </div>
             </Box>
           )
+    
+     
     } 
 
 export default Conversation
