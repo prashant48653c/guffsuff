@@ -122,34 +122,10 @@ if(emoGif){
  
 const { senderGif}=useSelector(state => state.conversation)
  
-useEffect(()=>{
-   if(senderGif){
-      const sendGif=async()=>{
 
-         try{
-           let giff=({...newMessege,messege:`<img src="${senderGif}" />`})
-           console.log(giff,"giff")
-           const receiverId = currentChat.members.find(id => id !== userData._id);
-
-            const response = await axios.post("http://localhost:4000/write", giff)
-            await socket.current.emit('sendMessage',{
-               senderId:userData._id,
-               receiverId,
-               messege:newMessege.messege
-         
-              })
-              console.log(arrivalMessage)
-           console.log(response.data)
-           }catch(err){
-         console.log(err)
-           }
-      }
-      sendGif()
-    
-   }
+   
 
 
-},[senderGif])
 
 
    const updateMessege = (e) => {
@@ -171,14 +147,15 @@ useEffect(()=>{
          ...prevMessege,    
          messege:(senderGif ? senderGif :  e.target.value)
       }));
-    await socket.current.emit('sendMessage',{
-      senderId:userData._id,
-      receiverId,
-      messege:newMessege.messege
-
-     })
+      await socket.current.emit('sendMessage',{
+         senderId:userData._id,
+         receiverId,
+         messege:newMessege.messege
+   
+        })
      try{
       const response = await axios.post("http://localhost:4000/write", newMessege)
+     
       if(response){
          setNewMessege(prevMessege => ({
             ...prevMessege,    

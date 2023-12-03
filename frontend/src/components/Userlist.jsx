@@ -147,7 +147,7 @@ const getConnected=async(e,user)=>{
 
         
         <Box sx={{
-          position: "fixed",
+          position: "absolute",
           maxWidth: "100%",
           marginX: "2rem",
           overflowY:"scroll"
