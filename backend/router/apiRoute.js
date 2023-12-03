@@ -110,7 +110,7 @@ router.get("/friendid/:friendId", async (req, res) => {
 
  
     try {
-        const friendName=await req.params.friendId
+        const friendName= req.params.friendId
         const alluser = await UserModel.find({_id:friendName});
 
  

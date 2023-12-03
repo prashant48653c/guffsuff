@@ -58,14 +58,15 @@ const Chatbox = () => {
     
 
     useEffect(() => {
-      if(arrivalMessage && currentChat){
-      console.log(arrivalMessage,"new messege "+"current chat"+currentChat.members)
-        currentChat?.members.includes(arrivalMessage.sender) &&
-        dispatch(setMessege((prev) => [...prev, arrivalMessage]));
-        console.log(messege)
+      if (arrivalMessage && currentChat) {
+         let arrive=arrivalMessage
+        console.log(arrive, "new message " + "current chat" + currentChat.members);
+        currentChat?.members.includes(arrive.sender) &&
+          dispatch(setMessege((messege)=>[...messege, arrivalMessage.messege])); // execute the function
+        console.log(messege);
       }
-    }, [arrivalMessage, currentChat]);
-
+    }, [arrivalMessage]);
+    
    useEffect(()=>{
       if(userData){
          socket.current.emit("addUser", userData._id)  //send to server
@@ -155,13 +156,13 @@ const { senderGif}=useSelector(state => state.conversation)
         })
      try{
       const response = await axios.post("http://localhost:4000/write", newMessege)
-     
+      console.log(response)
       if(response){
          setNewMessege(prevMessege => ({
             ...prevMessege,    
             messege:" "
          }));
-console.log(response)
+
       }
      }catch(err){
 console.log(err)

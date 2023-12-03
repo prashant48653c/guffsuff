@@ -8,28 +8,34 @@ const Conversation = ({user}) => {
 
     const dispatch=useDispatch()
 
-    const { userData } = useSelector((state) => state.auth)
-
- const [friendData,setFriendData]=useState([])
-
-    const getFriendData=async(friendId)=>{
-        console.log(friendId)
-        const response=await axios.get(`http://localhost:4000/friendid/${friendId}`) //your selected conversation friend id friendId
-        const data=response.data.messege[0]
-        setFriendData(data)
-      
-    }
-    useEffect(()=>{
-       
-        if(user.members){
-            const friendId=user.members.find((id)=> id !== userData._id)
-            getFriendData(friendId)
-           
+    const { userData } = useSelector((state) => state.auth);
+    const [friendData, setFriendData] = useState([]);
+    
+    const getFriendData = async (friendId) => {
+        try {
+            console.log(friendId);
+            const response = await axios.get(`http://localhost:4000/friendid/${friendId}`);
+            const data = response.data.messege[0];
+            setFriendData(data);
+            console.log(response);
+        } catch (error) {
+            console.error("Error fetching friend data:", error);
         }
-      
-       
-    },[])
-    console.log(friendData)
+    };
+    
+    useEffect(() => {
+        if (user.members && user.members.length > 0) {
+            const friendId = user.members.find((id) => id !== userData._id);
+            if (friendId) {
+                getFriendData(friendId);
+            } else {
+                console.error("Friend ID not found in user.members");
+            }
+        }
+    }, [user]);
+    
+    console.log(friendData);
+    
 
     
    return (
