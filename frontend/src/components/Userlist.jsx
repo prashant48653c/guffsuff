@@ -96,6 +96,7 @@ const Userlist = () => {
     e.preventDefault()
     try {
       let cur = await user
+
       let id = await user._id
       dispatch(setCurrentChat(cur))
 
@@ -132,7 +133,6 @@ const getConnected=async(e,user)=>{
   }
 }
  
-
 
 
 

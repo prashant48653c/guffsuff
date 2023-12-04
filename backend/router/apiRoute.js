@@ -203,7 +203,8 @@ router.get('/messege/:conversationId', async (req, res) => {
     try {
         const allmessege = await MessegeModel.find({
             conversationId: { $in: [req.params.conversationId] }
-        }).limit(50)
+        }) // Sort in descending order based on the createdAt field
+      
 
         res.status(200).json({ messege: allmessege })
 
@@ -216,6 +217,27 @@ router.get('/messege/:conversationId', async (req, res) => {
 
 
 })
+
+
+//delete a conversation 
+router.delete('/delmessage/:conversationId', async (req, res) => {
+    try {
+        const conversationId = req.params.conversationId;
+
+        // Assuming MessegeModel and ConversationModel have appropriate methods for deletion
+       
+        const deletedConversation = await ConversationModel.findByIdAndDelete(conversationId);
+
+        if (deletedConversation ) {
+            res.status(200).json({ success: true, message: 'Messages and conversation deleted successfully.' });
+        } else {
+            res.status(404).json({ success: false, message: 'Conversation not found.' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
 
 
 

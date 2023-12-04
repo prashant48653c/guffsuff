@@ -14,7 +14,9 @@ import axios from 'axios'
 import { setEmoGif, setMessege } from '../slices/messegeSlicer';
 import Messege from './Messege';
 import { io } from 'socket.io-client'
-
+import { current } from '@reduxjs/toolkit';
+import { setFriendData } from '../slices/authSlicer';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 const Chatbox = () => {
@@ -24,10 +26,21 @@ const Chatbox = () => {
    const { showEmoji, showGif } = useSelector((state) => state.toggle)
    const { currentChat, messege,emoGif } = useSelector(state => state.conversation)
    const [arrivalMessage, setArrivalMessage] = useState(null)
-   const { userData } = useSelector((state) => state.auth)
+   const { userData ,friendData} = useSelector((state) => state.auth)
    const [presentChat, setPresentChat] = useState('')
  
-
+useEffect(()=>{
+   if(currentChat){
+      const getFriend=async()=>{
+         const friendId = await currentChat.members.find((id) => id !== userData._id);
+         const response=await axios.get(`http://localhost:4000/friendid/${friendId}`)
+         dispatch(setFriendData(response.data.messege[0]))
+      }
+      getFriend()
+   }
+ 
+  
+},[currentChat])
 
    //socket things
 
@@ -60,9 +73,9 @@ const Chatbox = () => {
     useEffect(() => {
       if (arrivalMessage && currentChat) {
          let arrive=arrivalMessage
-        console.log(arrive, "new message " + "current chat" + currentChat.members);
-        currentChat?.members.includes(arrive.sender) &&
-          dispatch(setMessege((messege)=>[...messege, arrivalMessage.messege])); // execute the function
+        console.log(arrive, "new message " + "current chat");
+        currentChat?.members.includes(arrivalMessage.sender) &&
+          dispatch(setMessege((messege)=>[...messege, arrive])); // execute the function
         console.log(messege);
       }
     }, [arrivalMessage]);
@@ -84,7 +97,15 @@ const Chatbox = () => {
 
    
 
-
+   const delMessege=async()=>{
+  
+      if(currentChat){
+       const response=await axios.delete(`http://localhost:4000/delmessege/${currentChat._id}`)
+       console.log(response ,"data deleted")
+      }
+     
+     }
+     
 
 
 
@@ -204,7 +225,13 @@ console.log(err)
       }
    }, [messege]); 
  
-   if (messege[0]) {
+
+
+
+   if ( friendData) {
+
+
+      console.log(currentChat,"current")
       return (
          <Box pl={1}  >
 
@@ -212,7 +239,7 @@ console.log(err)
                background: "#595f69"
             }} position='sticky'>
                <Toolbar >
-                  <Typography flexGrow={1} variant="h6" color="inherit">{currentChat.firstname}</Typography>
+                  <Typography flexGrow={1} variant="h6" color="inherit">{friendData.firstname + " "+ friendData.lastname}</Typography>
 
                   <Stack flexDirection={'row'} flexGrow={0} >
 
@@ -223,6 +250,11 @@ console.log(err)
                      <IconButton aria-label="videocall button" >
                         <ArrowBackIcon />
                      </IconButton>
+
+                     <IconButton onClick={delMessege} aria-label="videocall button" >
+                        <DeleteIcon />
+                     </IconButton>
+                     
 
                   </Stack>
 
@@ -240,7 +272,7 @@ console.log(err)
 
             }}>
                {
-                  messege.map((elem, i) => {
+                  messege?.map((elem, i) => {
                   
                      return (
                         <Messege mes={elem} key={i} own={elem.sender == userData._id} />

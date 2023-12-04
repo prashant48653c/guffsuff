@@ -1,23 +1,38 @@
 import { Box } from '@mui/material'
 import React from 'react'
 
-const Messege = ({mes,own}) => {
- if(mes){
-  return (
-    <Box className={own ?"messege":"own-messege " }p={1} sx={{
-       display:"flex",
-        marginY:"1rem",
-        height:"auto",
-        width:"100%"
-     
-        
-        }} >
-   
- <span className={own ? 'messege-text-own':"messege-text-other "}>  {mes.messege}  </span> 
+import moment from 'moment';
+const Messege = ({ mes, own }) => {
 
-        </Box>
-  )
- }
+       
+if (mes) {
+return (
+<div>
+<Box className={own ? "messege" : "own-messege "} p={1} sx={{
+display: "flex",
+marginY: "1rem",
+height: "auto",
+width: "100%"
+
+
+}} >
+<div style={{
+maxWidth: "100%",
+textAlign: own ? "right" : "left",
+}}>
+<p className={own ? 'messege-text-own' : "messege-text-other "}>  {mes.messege}  </p>
+<i style={{
+fontSize: ".8rem",
+textAlign: "center"
+}}>{ moment(mes.createdAt).fromNow()}</i>
+</div>
+
+</Box>
+
+</div>
+
+)
+}
 
 }
 

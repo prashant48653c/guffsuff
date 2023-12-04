@@ -7,6 +7,7 @@ import { setFriendData } from '../slices/authSlicer'
 const Conversation = ({user}) => {
 
     const dispatch=useDispatch()
+    
 
     const { userData } = useSelector((state) => state.auth);
     const [friendData, setFriendData] = useState([]);
@@ -16,7 +17,7 @@ const Conversation = ({user}) => {
             console.log(friendId);
             const response = await axios.get(`http://localhost:4000/friendid/${friendId}`);
             const data = response.data.messege[0];
-            setFriendData(data);
+           (setFriendData(data))
             console.log(response);
         } catch (error) {
             console.error("Error fetching friend data:", error);
