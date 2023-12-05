@@ -31,6 +31,7 @@ const Chatbox = () => {
  
 useEffect(()=>{
    if(currentChat){
+      console.log(currentChat)
       const getFriend=async()=>{
          const friendId = await currentChat.members.find((id) => id !== userData._id);
          const response=await axios.get(`http://localhost:4000/friendid/${friendId}`)
@@ -74,7 +75,7 @@ useEffect(()=>{
       if (arrivalMessage && currentChat) {
          let arrive=arrivalMessage
         console.log(arrive, "new message " + "current chat");
-        currentChat?.members.includes(arrivalMessage.sender) &&
+        currentChat?.members?.includes(arrivalMessage.sender) &&
           dispatch(setMessege((messege)=>[...messege, arrive])); // execute the function
         console.log(messege);
       }
@@ -97,14 +98,14 @@ useEffect(()=>{
 
    
 
-   const delMessege=async()=>{
+   // const delMessege=async()=>{
   
-      if(currentChat){
-       const response=await axios.delete(`http://localhost:4000/delmessege/${currentChat._id}`)
-       console.log(response ,"data deleted")
-      }
+   //    if(currentChat){
+   //     const response=await axios.delete(`http://localhost:4000/delmessege/${currentChat._id}`)
+   //     console.log(response ,"data deleted")
+   //    }
      
-     }
+   //   }
      
 
 
@@ -228,7 +229,7 @@ console.log(err)
 
 
 
-   if ( friendData) {
+   if ( friendData.firstname && currentChat ) {
 
 
       console.log(currentChat,"current")
@@ -251,9 +252,9 @@ console.log(err)
                         <ArrowBackIcon />
                      </IconButton>
 
-                     <IconButton onClick={delMessege} aria-label="videocall button" >
+                     {/* <IconButton onClick={delMessege} aria-label="videocall button" >
                         <DeleteIcon />
-                     </IconButton>
+                     </IconButton> */}
                      
 
                   </Stack>

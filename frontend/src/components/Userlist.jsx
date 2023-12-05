@@ -90,8 +90,18 @@ const Userlist = () => {
     }
   }, [userData]);  
  
-
-
+  const logout = async () => {
+    try {
+      const res = await axios.get("http://localhost:4000/logout");
+      if (res) {
+        console.log(res)
+        navigate("/login");
+      }
+    } catch (error) {
+ 
+      console.error("Logout failed:", error);
+    }
+  }
   const getMessege = async (e, user) => {
     e.preventDefault()
     try {
@@ -140,6 +150,7 @@ const getConnected=async(e,user)=>{
     return (
       <aside style={{
         position: "relative",
+       
 
 
 
@@ -147,10 +158,12 @@ const getConnected=async(e,user)=>{
 
         
         <Box sx={{
-          position: "absolute",
+     
           maxWidth: "100%",
           marginX: "2rem",
-          overflowY:"scroll"
+          overflowY:"scroll",
+          height:"85vh"
+          
         }} >
 
 
@@ -193,7 +206,7 @@ const getConnected=async(e,user)=>{
               conversation ?
               (
                 conversation?.map((user, i) => (
-                  <div key={i} onClick={(e) => getMessege(e, user)}>
+                  <div style={{ overflowY:"scroll"}} key={i} onClick={(e) => getMessege(e, user)}>
                     
                     <Conversation user={user} />
                  
@@ -226,7 +239,7 @@ const getConnected=async(e,user)=>{
 {
               (
                 allUser?.map((user, i) => (
-                  <div key={i} onClick={(e) => getConnected(e, user)}>
+                  <div  key={i} onClick={(e) => getConnected(e, user)}>
                 <Alluser user={user} />
                   </div>
                 ))
@@ -250,10 +263,23 @@ const getConnected=async(e,user)=>{
             position: "fixed",
             bottom: "4%",
             left: "2%",
-            background: "#636b65"
+            background: "#ccc"
           }}>
-            <Typography flexGrow={1} variant="body1" color="inherit">{userData.firstname + " "+ userData.lastname}</Typography>
-            <IconButton onClick={() => navigate("/login")} aria-label="logout"  >
+             <div style={{
+                    width: "3rem",
+                    height: "3rem",
+                    borderRadius: "56",
+        
+        
+                }}>
+                    <img style={{
+                        width: "3rem",
+                        height: "3rem",
+                        borderRadius: "56rem"
+                    }} src="https://1fid.com/wp-content/uploads/2022/06/cool-profile-picture-2-1024x1024.jpg" alt="" />
+                </div>
+            <Typography flexGrow={1} px={2} variant="body1" color="inherit">{userData.firstname + " "+ userData.lastname}</Typography>
+            <IconButton onClick={logout} aria-label="logout"  >
               <LogoutIcon />
             </IconButton>
           </Paper>

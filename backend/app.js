@@ -3,13 +3,14 @@ const http=require("http")
 const { Server } = require("socket.io");
 const router=require("./router/apiRoute")
 const connectDB=require("./db/conn")
-const cors=require("cors")
+const cors=require("cors");
+const cookieParser = require("cookie-parser");
 const app=express()
 const server=http.createServer(app)
 const PORT=4000
 const io=new Server(server)
 app.use(router)
-
+app.use(cookieParser())
 app.use(cors({
   origin: "http://localhost:5173",
   credentials:true,

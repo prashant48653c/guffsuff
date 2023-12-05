@@ -49,10 +49,10 @@ router.post("/login", async (req, res) => {
         if(await oldUser.password === password){
             const token=await oldUser.createAuthToken()
             res.cookie('jwtoken',token,{
-                expires:new Date(Date.now() + 3333333333333),
-                httpOnly:true,
-                secure:true,
-                credentials:"include",
+                expires: new Date(Date.now() + 25892000000),
+                httpOnly: false,
+                credentials: "include",
+                secure: true
                 
             })
         
@@ -239,6 +239,22 @@ router.delete('/delmessage/:conversationId', async (req, res) => {
     }
 });
 
+//logout
+
+router.get("/logout", async (req, res) => {
+    try {
+      const clear= await res.clearCookie('jwtoken');
+      if(clear){
+        console.log("cookie was cleared",req.cookies.jwtoken)
+        res.status(200).json({ messege: "User has been logged out" })
+      }
+      
+    } catch (err) {
+        console.log(err)
+    }
+
+
+})
 
 
 module.exports = router;

@@ -23,7 +23,7 @@ const Alluser = ({user}) => {
                 width: "3rem",
                 height: "3rem",
                 borderRadius: "56rem"
-            }} src="https://repository-images.githubusercontent.com/260096455/47f1b200-8b2e-11ea-8fa1-ab106189aeb0" alt="" />
+            }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
         </div>
         <div >
             <Typography variant="body1" color="inherit">{user.firstname + " " + user.lastname}</Typography>
