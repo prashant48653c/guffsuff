@@ -11,7 +11,7 @@ import Emoji from '../getData/emoji';
 import { useDispatch, useSelector } from 'react-redux';
 import Gif from '../getData/Gif';
 import axios from 'axios'
-import { setEmoGif, setMessege } from '../slices/messegeSlicer';
+import { setCurrentChat, setEmoGif, setMessege, setSenderGif } from '../slices/messegeSlicer';
 import Messege from './Messege';
 import { io } from 'socket.io-client'
 import { current } from '@reduxjs/toolkit';
@@ -60,6 +60,7 @@ useEffect(()=>{
             setArrivalMessage({
                sender: data.senderId,
                messege: data.messege,
+               mestype:data.mestype,
                createdAt: Date.now(),
              });
              console.log(data.messege)
@@ -74,6 +75,7 @@ useEffect(()=>{
     useEffect(() => {
       if (arrivalMessage && currentChat) {
          let arrive=arrivalMessage
+
         console.log(arrive, "new message " + "current chat");
         currentChat?.members?.includes(arrivalMessage.sender) &&
           dispatch(setMessege((messege)=>[...messege, arrive])); // execute the function
@@ -123,7 +125,8 @@ useEffect(()=>{
    const [newMessege, setNewMessege] = useState({
       sender: userData._id,
       messege: 'hi',
-      conversationId: ''
+      conversationId: '',
+      mestype:'text'
 
    })
    useEffect(() => {
@@ -160,20 +163,78 @@ const { senderGif}=useSelector(state => state.conversation)
       }
    };
    
+///sending gif 
+ 
+useEffect(()=>{
+   if(senderGif){
+      sendGif()
+
+   }
+},[senderGif])
+
+const sendGif = async (e) => {
+let gif=await senderGif
+   const receiverId = await currentChat.members.find(id => id !== userData._id);
+    
+      setNewMessege(prevMessege => ({
+         ...prevMessege,    
+         messege: gif,
+         mestype: "img"
+      }));
+   
+   
+   await socket.current.emit('sendMessage',{
+      senderId:userData._id,
+      receiverId,
+      messege:gif,
+      mestype:'img'
+
+     })
+  try{
+   const response = await axios.post("http://localhost:4000/write", {
+      sender: userData._id,
+      conversationId:currentChat._id,
+      messege: gif,
+      mestype: "img"
+   })
+   console.log(response)
+   if(response){
+      setNewMessege(prevMessege => ({
+         ...prevMessege,    
+         messege:" "
+      }));
+      dispatch(setSenderGif(''))
+
+   }
+  }catch(err){
+   console.log(err)
+  }
+  
+}
+
+
+
+
+
 
 
 
    const submitMessege = async (e) => {
-      e.preventDefault()
-      const receiverId = currentChat.members.find(id => id !== userData._id);
-      setNewMessege(prevMessege => ({
-         ...prevMessege,    
-         messege:(senderGif ? senderGif :  e.target.value)
-      }));
+
+      const receiverId = await currentChat.members.find(id => id !== userData._id);
+       
+         setNewMessege(prevMessege => ({
+            ...prevMessege,    
+            messege:  e.target.value,
+            mestype: "text"
+         }));
+      
+      
       await socket.current.emit('sendMessage',{
          senderId:userData._id,
          receiverId,
-         messege:newMessege.messege
+         messege:newMessege.messege,
+         mestype:newMessege.mestype
    
         })
      try{
@@ -184,13 +245,16 @@ const { senderGif}=useSelector(state => state.conversation)
             ...prevMessege,    
             messege:" "
          }));
+         dispatch(setSenderGif(''))
 
       }
      }catch(err){
-console.log(err)
+      console.log(err)
      }
      
    }
+
+
     /////////////////
     const emojiShow = () => {
 
@@ -244,11 +308,9 @@ console.log(err)
 
                   <Stack flexDirection={'row'} flexGrow={0} >
 
-                     <IconButton aria-label="videocall button" >
-                        <VideoCallIcon />
-                     </IconButton>
+                     
 
-                     <IconButton aria-label="videocall button" >
+                     <IconButton   aria-label="videocall button" >
                         <ArrowBackIcon />
                      </IconButton>
 

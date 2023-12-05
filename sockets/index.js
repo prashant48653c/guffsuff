@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
   });
 
   //send and get message
-  socket.on("sendMessage", async ({ senderId, receiverId, messege }) => {
+  socket.on("sendMessage", async ({ senderId, receiverId, messege,mestype }) => {
     const userReceiver = await getUser(receiverId);
     const userSender = await getUser(senderId);
   
@@ -52,8 +52,9 @@ io.on("connection", (socket) => {
       io.to(userReceiver.socketId).emit("getMessage", {
         senderId,
         messege,
+        mestype
       });
-      console.log(`Sent message from ${senderId} to ${receiverId}: ${messege}`);
+      console.log(`Sent message from ${senderId} to ${receiverId}: ${messege} and the type is ${mestype}`);
     } else {
       console.log("Receiver is offline for now");
     }
@@ -62,6 +63,7 @@ io.on("connection", (socket) => {
       io.to(userSender.socketId).emit("getMessage", {
         senderId,
         messege,
+        mestype
       });
       console.log(`Sent message from ${senderId} to self: ${messege}`);
     } else {

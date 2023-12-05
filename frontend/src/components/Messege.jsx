@@ -3,7 +3,7 @@ import React from 'react'
 
 import moment from 'moment';
 const Messege = ({ mes, own }) => {
-
+console.log(mes)
        
 if (mes) {
 return (
@@ -16,15 +16,33 @@ width: "100%"
 
 
 }} >
+
+
 <div style={{
-maxWidth: "100%",
+ 
 textAlign: own ? "right" : "left",
 }}>
-<p className={own ? 'messege-text-own' : "messege-text-other "}>  {mes.messege}  </p>
+{
+    mes.mestype =="text" ?
+    <>
+    <p className={own ? 'messege-text-own' : "messege-text-other "}>  {mes.messege}  </p>
+
+</> :
+<>
+<img style={{
+    height:"9rem",
+     
+    display:"block"
+}} src={mes.messege} alt="" />
+</>
+}
+
+
 <i style={{
 fontSize: ".8rem",
 textAlign: "center"
 }}>{ moment(mes.createdAt).fromNow()}</i>
+ 
 </div>
 
 </Box>

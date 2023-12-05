@@ -108,9 +108,9 @@ h6 {
 }
 
 .messege-text-own {
-
+text-align: center;
   background-color: #318CE7;
-  padding: .7rem 1.3rem;
+  padding: .7rem .5rem;
   border-radius: 1rem;
   color: white;
  

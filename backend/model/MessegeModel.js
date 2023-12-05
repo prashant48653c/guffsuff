@@ -9,6 +9,9 @@ const MessegeSchema=mongoose.Schema({
     },
     sender:{
         type:String
+    },
+    mestype:{
+        type:String
     }
 },{
     timestamps:true
