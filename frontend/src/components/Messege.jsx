@@ -30,7 +30,7 @@ textAlign: own ? "right" : "left",
 </> :
 <>
 <img style={{
-    height:"9rem",
+    height:"15rem",
      
     display:"block"
 }} src={mes.messege} alt="" />
