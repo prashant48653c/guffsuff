@@ -31,7 +31,7 @@ const Chatbox = () => {
  
 useEffect(()=>{
    if(currentChat){
-      console.log(currentChat)
+      // console.log(currentChat)
       const getFriend=async()=>{
          const friendId = await currentChat.members.find((id) => id !== userData._id);
          const response=await axios.get(`http://localhost:4000/friendid/${friendId}`)
@@ -63,7 +63,7 @@ useEffect(()=>{
                mestype:data.mestype,
                createdAt: Date.now(),
              });
-             console.log(data.messege)
+            //  console.log(data.messege)
           }
         });
       }
@@ -76,10 +76,10 @@ useEffect(()=>{
       if (arrivalMessage && currentChat) {
          let arrive=arrivalMessage
 
-        console.log(arrive, "new message " + "current chat");
+      //   console.log(arrive, "new message " + "current chat");
         currentChat?.members?.includes(arrivalMessage.sender) &&
           dispatch(setMessege((messege)=>[...messege, arrive])); // execute the function
-        console.log(messege);
+      //   console.log(messege);
       }
     }, [arrivalMessage]);
     
@@ -87,12 +87,12 @@ useEffect(()=>{
       if(userData){
          socket.current.emit("addUser", userData._id)  //send to server
          socket.current.on("getUser", (users) => {
-            console.log(users,"User from socket"  )
+            // console.log(users,"User from socket"  )
          })
       }
      
    },[currentChat])
-   console.log(socket.current)
+   // console.log(socket.current)
  
  
 
@@ -197,7 +197,7 @@ let gif=await senderGif
       messege: gif,
       mestype: "img"
    })
-   console.log(response)
+   // console.log(response)
    if(response){
       setNewMessege(prevMessege => ({
          ...prevMessege,    
@@ -229,28 +229,30 @@ let gif=await senderGif
             mestype: "text"
          }));
       
-      
-      await socket.current.emit('sendMessage',{
-         senderId:userData._id,
-         receiverId,
-         messege:newMessege.messege,
-         mestype:newMessege.mestype
    
-        })
-     try{
-      const response = await axios.post("http://localhost:4000/write", newMessege)
-      console.log(response)
-      if(response){
-         setNewMessege(prevMessege => ({
-            ...prevMessege,    
-            messege:" "
-         }));
-         dispatch(setSenderGif(''))
-
-      }
-     }catch(err){
-      console.log(err)
-     }
+         await socket.current.emit('sendMessage',{
+            senderId:userData._id,
+            receiverId,
+            messege:newMessege.messege,
+            mestype:newMessege.mestype
+      
+           })
+        try{
+         const response = await axios.post("http://localhost:4000/write", newMessege)
+         // console.log(response)
+         if(response){
+            setNewMessege(prevMessege => ({
+               ...prevMessege,    
+               messege:" "
+            }));
+            dispatch(setSenderGif(''))
+   
+         }
+        }catch(err){
+         console.log(err)
+        }
+    
+   
      
    }
 
@@ -296,7 +298,7 @@ let gif=await senderGif
    if ( friendData.firstname && currentChat ) {
 
 
-      console.log(currentChat,"current")
+      // console.log(currentChat,"current")
       return (
          <Box pl={1}  >
 
@@ -331,7 +333,8 @@ let gif=await senderGif
             <div id='div-messege-container' style={{
                overflowY: "scroll",
                height: "77vh",
-               padding: "2rem 0"
+               padding: "2rem 0",
+               
 
             }}>
                {

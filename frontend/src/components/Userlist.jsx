@@ -62,7 +62,7 @@ const Userlist = () => {
         const data = response.data.messege
         const alluser=await data.filter(elem => elem._id !== userData._id)
         dispatch(setAllUser(alluser));
-        console.log(alluser, "all user")
+        // console.log(alluser, "all user")
       } catch (error) {
         console.error(error);
       }
@@ -79,7 +79,7 @@ const Userlist = () => {
         const response = await axios.get(`http://localhost:4000/conversation/${userData._id}`);
         const data = response.data.data;
         dispatch(setConversation(data));
-        console.log(data); // Check the data you're receiving
+       // Check the data you're receiving
       } catch (error) {
         console.error(error);
       }
@@ -94,7 +94,7 @@ const Userlist = () => {
     try {
       const res = await axios.get("http://localhost:4000/logout");
       if (res) {
-        console.log(res)
+        // console.log(res)
         navigate("/login");
       }
     } catch (error) {
@@ -113,7 +113,7 @@ const Userlist = () => {
 
       const response = await axios.get(`http://localhost:4000/messege/${id}`)  //conversation id
       const data = response.data.messege
-      console.log(data)
+      // console.log(data)
       dispatch(setMessege(data))
 
 
@@ -131,12 +131,12 @@ const getConnected=async(e,user)=>{
       senderId:userData._id,
       receiverId:user._id
     }
-    console.log(info)
+    // console.log(info)
    setConversationInfo(info)
     const response = await axios.post("http://localhost:4000/connect",conversationInfo,{
       withCredentials:true
     })
-    console.log(response)
+    // console.log(response)
 
   }catch(err){
     console.log(err)

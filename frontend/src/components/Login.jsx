@@ -32,7 +32,7 @@ setUserCredential({...userCredential,[name]:value})
           },
         withCredentials:true
     })
-    console.log(res)
+    // console.log(res)
     
 
 }catch(err){
@@ -41,9 +41,7 @@ setUserCredential({...userCredential,[name]:value})
 }
 
  }
- useEffect(()=>{
-    console.log(userCredential)
- },[userCredential])
+ 
 
   return (
     <>

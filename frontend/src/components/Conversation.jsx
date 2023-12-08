@@ -14,11 +14,11 @@ const Conversation = ({user}) => {
     
     const getFriendData = async (friendId) => {
         try {
-            console.log(friendId);
+            // console.log(friendId);
             const response = await axios.get(`http://localhost:4000/friendid/${friendId}`);
             const data = response.data.messege[0];
            (setFriendData(data))
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error("Error fetching friend data:", error);
         }
@@ -35,7 +35,7 @@ const Conversation = ({user}) => {
         }
     }, [user]);
     
-    console.log(friendData);
+    // console.log(friendData);
     
 
     
