@@ -8,6 +8,7 @@ import Gif from './getData/Gif'
 import Login from './components/Login'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Chatbox from './components/Chatbox'
 function App() {
 
   const theme = createTheme({
@@ -27,6 +28,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/join' element={<Join />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/chatbox' element={<Chatbox />} />
+
 
 
 

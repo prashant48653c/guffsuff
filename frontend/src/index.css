@@ -106,6 +106,13 @@ h6 {
   -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
+.link-to-join{
+  transition: all .5s linear;
+  cursor: pointer;
+}
+.link-to-join:hover{
+  color: #F3F3F3;
+}
 
 .messege-text-own {
 text-align: center;

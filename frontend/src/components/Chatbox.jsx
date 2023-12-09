@@ -17,6 +17,7 @@ import { io } from 'socket.io-client'
 import { current } from '@reduxjs/toolkit';
 import { setFriendData } from '../slices/authSlicer';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 
 
 const Chatbox = () => {
@@ -45,7 +46,7 @@ useEffect(()=>{
 
    //socket things
 
-
+const navigate=useNavigate()
    const socket = useRef()
    useEffect(() => {
       if (userData && socket.current === undefined) {
@@ -215,7 +216,7 @@ let gif=await senderGif
 
 
 
-
+const inputRef = useRef(null);
 
 
 
@@ -243,8 +244,9 @@ let gif=await senderGif
          if(response){
             setNewMessege(prevMessege => ({
                ...prevMessege,    
-               messege:" "
+               messege:""
             }));
+            inputRef.current.value = '';
             dispatch(setSenderGif(''))
    
          }
@@ -312,7 +314,7 @@ let gif=await senderGif
 
                      
 
-                     <IconButton   aria-label="videocall button" >
+                     <IconButton onClick={()=>navigate('/')}  aria-label="videocall button" >
                         <ArrowBackIcon />
                      </IconButton>
 
@@ -332,7 +334,7 @@ let gif=await senderGif
 
             <div id='div-messege-container' style={{
                overflowY: "scroll",
-               height: "77vh",
+               height:(window.innerWidth > 600)? "77vh":"85vh",
                padding: "2rem 0",
                
 
@@ -358,10 +360,11 @@ let gif=await senderGif
 
             <form >
 
-               <TextField  onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
+               <TextField   inputRef={inputRef} onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
                   paddingRight: "1rem",
-                  border: 'none',
+                   
                   outline: "none",
+                  marginBottom:0,
 
                   borderRadius: 50,
                   background: "#343541"
@@ -423,7 +426,7 @@ let gif=await senderGif
             display: "flex",
             textAlign: "center",
             alignItems: "center"
-         }} >You are lonely just like the developer</Box>
+         }} >Try some guffsuff</Box>
       )
    }
 

@@ -141,11 +141,20 @@ router.post('/connect', async (req, res) => {
     const newConversation = await new ConversationModel({
         members: [req.body.senderId, req.body.receiverId]
     })
-  
+    const isSame = await ConversationModel.findOne({
+        members: {
+          $all: [req.body.senderId, req.body.receiverId]
+        }
+      });
+
+      
 
     try {
-        const saveConnection = await newConversation.save()
-        res.status(201).json({ messege:saveConnection})
+        if(!isSame){
+            const saveConnection = await newConversation.save()
+            res.status(201).json({ messege:saveConnection})
+        }
+      
 
 
     } catch (error) {
@@ -243,11 +252,11 @@ router.delete('/delmessage/:conversationId', async (req, res) => {
 
 router.get("/logout", async (req, res) => {
     try {
-      const clear= await res.clearCookie('jwtoken');
-      if(clear){
-        console.log("cookie was cleared",req.cookies.jwtoken)
-        res.status(200).json({ messege: "User has been logged out" })
-      }
+     res.clearCookie('jwtoken');
+     
+        console.log("cookie was cleared")
+        res.status(200).json({ messege: "Succesfully logout"})
+    
       
     } catch (err) {
         console.log(err)

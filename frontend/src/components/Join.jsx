@@ -32,7 +32,9 @@ const navigate=useNavigate()
               },
             withCredentials:true
         })
-       
+       if(res){
+        navigate("/")
+       }
     
     }catch(err){
         console.log("logging error",err)
@@ -58,7 +60,7 @@ paddingTop: '3rem',
 
     <Typography gutterBottom variant="h3" fontWeight={500} color="white">Create new account  </Typography>
 
-    <Typography gutterBottom variant="subtitle2" color="inherit">Already A Member?   <Link onClick={()=>navigate("/login")} sx={{
+    <Typography gutterBottom variant="subtitle2" color="inherit">Already A Member?   <Link className='link-to-join' onClick={()=>navigate("/login")} sx={{
         textDecoration:"none",
         paddingLeft:".5rem",
         color:"#87C4FF"

@@ -32,6 +32,9 @@ setUserCredential({...userCredential,[name]:value})
           },
         withCredentials:true
     })
+    if(res){
+        navigate("/")
+       }
     // console.log(res)
     
 
@@ -59,7 +62,7 @@ paddingTop: '3rem',
 
     <Typography gutterBottom variant="h3" fontWeight={500} color="white">Login here</Typography>
 
-    <Typography gutterBottom variant="subtitle2" color="inherit">Don't have an account?   <Link onClick={()=>navigate("/join")} sx={{
+    <Typography gutterBottom variant="subtitle2" color="inherit">Don't have an account?   <Link className='link-to-join' onClick={()=>navigate("/join")} sx={{
         textDecoration:"none",
         paddingLeft:".5rem",
         color:"#87C4FF"

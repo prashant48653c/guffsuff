@@ -8,7 +8,7 @@ import { setEmoGif } from '../slices/messegeSlicer';
 
 const Emoji = () => {
     const [emojis, setEmojis] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('animal');
+    const [searchTerm, setSearchTerm] = useState('cat');
     const { emoGif } = useSelector((state) => state.conversation)
     const dispatch = useDispatch()
 

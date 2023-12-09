@@ -92,9 +92,16 @@ const Userlist = () => {
  
   const logout = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/logout");
-      if (res) {
-        // console.log(res)
+     
+      const response = await axios.get("http://localhost:4000/logout", {
+        withCredentials: true, // Include this to send cookies
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (response) {
+        console.log(response)
         navigate("/login");
       }
     } catch (error) {
@@ -115,7 +122,7 @@ const Userlist = () => {
       const data = response.data.messege
       // console.log(data)
       dispatch(setMessege(data))
-
+   window.innerWidth < 600 && navigate("/chatbox")
 
     } catch (error) {
       console.log(error)
@@ -256,7 +263,7 @@ const getConnected=async(e,user)=>{
 
 
           <Paper sx={{
-            width: "20%",
+            width:(window.innerWidth < 600)? "100%":"20%",
             padding: "1rem",
             display: "flex",
             alignItems: "center",
