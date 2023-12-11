@@ -97,7 +97,7 @@ const navigate=useNavigate()
    // console.log(socket.current)
  
  
-
+ 
  
 
    
@@ -390,9 +390,7 @@ const inputRef = useRef(null);
                   ),
                   startAdornment: (
                      <>
-                        <InputAdornment  sx={{ marginRight: ".7rem" }} position="start">
-                           <ImageIcon  style={{ color: 'white', cursor: "pointer" }} />
-                        </InputAdornment>
+                       
 
                         <InputAdornment onClick={gifShow} sx={{ marginRight: ".7rem" }} position="start">
                            <GifIcon style={{ color: 'white', cursor: "pointer" }} />

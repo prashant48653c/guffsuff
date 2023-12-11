@@ -6,28 +6,28 @@ import { setFriendData } from '../slices/authSlicer'
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-const Conversation = ({user}) => {
+const Conversation = ({ user }) => {
 
-    const dispatch=useDispatch()
-    
+    const dispatch = useDispatch()
 
-    const { userData,onlineUser } = useSelector((state) => state.auth);
+
+    const { userData, onlineUser } = useSelector((state) => state.auth);
     const { currentChat } = useSelector((state) => state.conversation);
 
     const [friendData, setFriendData] = useState([]);
-    
+
     const getFriendData = async (friendId) => {
         try {
             // console.log(friendId);
             const response = await axios.get(`http://localhost:4000/friendid/${friendId}`);
             const data = response.data.messege[0];
-           (setFriendData(data))
+            (setFriendData(data))
             // console.log(response);
         } catch (error) {
             console.error("Error fetching friend data:", error);
         }
     };
-    
+
     useEffect(() => {
         if (user.members && user.members.length > 0) {
             const friendId = user.members.find((id) => id !== userData._id);
@@ -38,66 +38,66 @@ const Conversation = ({user}) => {
             }
         }
     }, [user]);
-    
-   const [onlineId,setOnlineId]=useState([])
 
-    useEffect(()=>{
+    const [onlineId, setOnlineId] = useState([])
+
+    useEffect(() => {
         const onlineUserIds = onlineUser.map(user => user.userId);
-const commonUserIds =user.members.filter(userId => onlineUserIds.includes(userId));
-console.log(commonUserIds,"the onlne id")
-setOnlineId(commonUserIds)
-    },[onlineUser])
+        const commonUserIds = user.members.filter(userId => onlineUserIds.includes(userId));
+        console.log(commonUserIds, "the onlne id")
+        setOnlineId(commonUserIds)
+    }, [onlineUser])
 
 
-    const delMessege=async()=>{
-try{
-    let conversationId=currentChat._id
-    console.log(conversationId)
-    const response=await axios.delete("http://localhost:4000/delmessage",{
-        data: { conversationId },
-    })
-    console.log(response.data)
-}catch(err){
-    console.log(err)
-}
+    const delMessege = async () => {
+        try {
+            let conversationId = currentChat._id
+            console.log(conversationId)
+            const response = await axios.delete("http://localhost:4000/delmessage", {
+                data: { conversationId },
+            })
+            console.log(response.data)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
-    
-   return (
-            <Box  sx={{
-                padding: ".7rem",
-                display: "flex",
-                gap: "1rem",
-                alignItem: "center",
-                borderRadius: "1rem",
-                background: "#595f69",
-                marginY: "1rem"
+
+    return (
+        <Box sx={{
+            padding: ".7rem",
+            display: "flex",
+            gap: "1rem",
+            alignItem: "center",
+            borderRadius: "1rem",
+            background: "#595f69",
+            marginY: "1rem"
+        }}>
+            <div style={{
+                width: "3rem",
+                height: "3rem",
+                borderRadius: "56",
+
+
             }}>
-                <div style={{
+                <img style={{
                     width: "3rem",
                     height: "3rem",
-                    borderRadius: "56",
-        
-        
-                }}>
-                    <img style={{
-                        width: "3rem",
-                        height: "3rem",
-                        borderRadius: "56rem"
-                    }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
-                </div>
-                <div >
-                    <Typography variant="body1" color="inherit">{friendData.firstname + " "+ friendData.lastname}</Typography>
-                    <Typography variant="subtitle2" color="inherit">{onlineId.includes(friendData._id)?"Online":"Click to chat"}</Typography>
-        
-                </div>
-                <IconButton onClick={delMessege} aria-label="videocall button" >
-                        <DeleteIcon />
-                     </IconButton>
+                    borderRadius: "56rem"
+                }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
+            </div>
+            <Box >
+                <Typography variant="body1" color="inherit">{friendData.firstname + " " + friendData.lastname}</Typography>
+                <Typography variant="subtitle2" color="inherit">{onlineId.includes(friendData._id) ? "Online" : "Click to chat"}</Typography>
+
             </Box>
-          )
-    
-     
-    } 
+            <IconButton onClick={delMessege} aria-label="videocall button" >
+                <DeleteIcon />
+            </IconButton>
+        </Box>
+    )
+
+
+}
 
 export default Conversation

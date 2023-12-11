@@ -39,6 +39,8 @@ const Userlist = () => {
         });
   
         const data = response.data;
+      
+       
         dispatch(setUserData(data));
       } catch (error) {
         console.error(error);

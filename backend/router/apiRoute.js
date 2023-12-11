@@ -247,6 +247,25 @@ router.delete('/delmessage', async (req, res) => {
     }
 });
 
+//delete a messege
+router.delete('/delsinglemessege', async (req, res) => {
+    try {
+        const {mesId} =await req.body
+
+    console.log(mesId)
+        const deletedMessege = await MessegeModel.findByIdAndDelete(mesId);
+
+        if (deletedMessege ) {
+            res.status(200).json({ success: true, message: 'Messages and conversation deleted successfully.' });
+        } else {
+            res.status(404).json({ success: false, message: 'Conversation not found.' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
+
 //logout
 
 router.get("/logout", async (req, res) => {

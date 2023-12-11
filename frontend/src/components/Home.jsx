@@ -16,6 +16,17 @@ const Home = () => {
   setisMobile(window.innerWidth)
 
  },[])
+
+
+
+
+
+
+
+
+
+
+
 if(isMobile >600){
   return (
     <Grid container width={"100%"} height={"100vh"} >
