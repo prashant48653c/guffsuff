@@ -1,15 +1,19 @@
-import { Box, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFriendData } from '../slices/authSlicer'
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const Conversation = ({user}) => {
 
     const dispatch=useDispatch()
     
 
-    const { userData } = useSelector((state) => state.auth);
+    const { userData,onlineUser } = useSelector((state) => state.auth);
+    const { currentChat } = useSelector((state) => state.conversation);
+
     const [friendData, setFriendData] = useState([]);
     
     const getFriendData = async (friendId) => {
@@ -35,8 +39,28 @@ const Conversation = ({user}) => {
         }
     }, [user]);
     
-    // console.log(friendData);
-    
+   const [onlineId,setOnlineId]=useState([])
+
+    useEffect(()=>{
+        const onlineUserIds = onlineUser.map(user => user.userId);
+const commonUserIds =user.members.filter(userId => onlineUserIds.includes(userId));
+console.log(commonUserIds,"the onlne id")
+setOnlineId(commonUserIds)
+    },[onlineUser])
+
+
+    const delMessege=async()=>{
+try{
+    let conversationId=currentChat._id
+    console.log(conversationId)
+    const response=await axios.delete("http://localhost:4000/delmessage",{
+        data: { conversationId },
+    })
+    console.log(response.data)
+}catch(err){
+    console.log(err)
+}
+    }
 
     
    return (
@@ -64,9 +88,12 @@ const Conversation = ({user}) => {
                 </div>
                 <div >
                     <Typography variant="body1" color="inherit">{friendData.firstname + " "+ friendData.lastname}</Typography>
-                    <Typography variant="subtitle2" color="inherit">Click to chat</Typography>
+                    <Typography variant="subtitle2" color="inherit">{onlineId.includes(friendData._id)?"Online":"Click to chat"}</Typography>
         
                 </div>
+                <IconButton onClick={delMessege} aria-label="videocall button" >
+                        <DeleteIcon />
+                     </IconButton>
             </Box>
           )
     

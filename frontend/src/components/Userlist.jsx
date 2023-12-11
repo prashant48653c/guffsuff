@@ -10,6 +10,7 @@ import { setConversation, setCurrentChat, setMessege } from '../slices/messegeSl
 import Conversation from './Conversation';
 import { io } from 'socket.io-client'
 import Alluser from './Alluser';
+import { setSearchName } from '../slices/toggleSlicer';
 
 
 const Userlist = () => {
@@ -20,6 +21,7 @@ const Userlist = () => {
   const { userData,allUser } = useSelector((state) => state.auth)
   const { conversation, currentChat } = useSelector((state) => state.conversation)
 
+  const { searchName } = useSelector((state) => state.toggle)
 
 
 
@@ -143,15 +145,29 @@ const getConnected=async(e,user)=>{
     const response = await axios.post("http://localhost:4000/connect",conversationInfo,{
       withCredentials:true
     })
-    // console.log(response)
+    console.log(response.data)
 
   }catch(err){
     console.log(err)
   }
 }
- 
 
+ const handleChange=(e)=>{
+  if(e.key == 'Enter'){
+    searchPerson()
+    dispatch(setSearchName(" "))
+  }
+dispatch(setSearchName(e.target.value))
+console.log(searchName)
+ }
 
+const searchPerson=()=>{
+  const result = allUser.filter((user) =>
+  user.firstname.toLowerCase().includes(searchName.toLowerCase())
+);
+
+console.log(result, "search result");
+}
 
   if (userData && conversation) {
     return (
@@ -184,11 +200,11 @@ const getConnected=async(e,user)=>{
             autoComplete='off'
             placeholder='Search'
             id="input-with-icon-textfield"
-
+          onChange={handleChange}
             InputProps={{
               style: { color: 'white' },
               endAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment onClick={searchPerson} position="start">
                   <AccountCircleIcon style={{ color: 'white' }} />
                 </InputAdornment>
               ),
@@ -246,7 +262,7 @@ const getConnected=async(e,user)=>{
 {
               (
                 allUser?.map((user, i) => (
-                  <div  key={i} onClick={(e) => getConnected(e, user)}>
+                  <div key={i} onClick={(e) => getConnected(e, user)}>
                 <Alluser user={user} />
                   </div>
                 ))

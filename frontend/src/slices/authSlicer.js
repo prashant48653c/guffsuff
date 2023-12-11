@@ -7,7 +7,8 @@ export const authSlicer= createSlice({
   initialState:{
     userData:false,
     friendData:[],
-    allUser:[]
+    allUser:[],
+    onlineUser:[]
   },
   reducers: {
     
@@ -19,11 +20,14 @@ export const authSlicer= createSlice({
     },
     setAllUser:(state,action)=>{
       state.allUser=action.payload
+    },
+    setOnlineUser:(state,action)=>{
+      state.onlineUser=action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUserData,setFriendData,setAllUser } = authSlicer.actions
+export const { setUserData,setFriendData,setAllUser,setOnlineUser } = authSlicer.actions
 
 export default authSlicer.reducer

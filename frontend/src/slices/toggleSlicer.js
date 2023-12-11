@@ -7,6 +7,7 @@ export const toggleSlicer = createSlice({
   initialState:{
     showEmoji:false,
     showGif:false,
+    searchName:""
   },
   reducers: {
     
@@ -16,10 +17,13 @@ export const toggleSlicer = createSlice({
     setShowGif: (state, action) => {
         state.showGif = action.payload
       },
+      setSearchName: (state, action) => {
+        state.searchName = action.payload
+      },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setShowEmoji,setShowGif } = toggleSlicer.actions
+export const { setShowEmoji,setShowGif,setSearchName } = toggleSlicer.actions
 
 export default toggleSlicer.reducer

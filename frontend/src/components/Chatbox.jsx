@@ -15,7 +15,7 @@ import { setCurrentChat, setEmoGif, setMessege, setSenderGif } from '../slices/m
 import Messege from './Messege';
 import { io } from 'socket.io-client'
 import { current } from '@reduxjs/toolkit';
-import { setFriendData } from '../slices/authSlicer';
+import { setFriendData, setOnlineUser } from '../slices/authSlicer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
@@ -88,7 +88,8 @@ const navigate=useNavigate()
       if(userData){
          socket.current.emit("addUser", userData._id)  //send to server
          socket.current.on("getUser", (users) => {
-            // console.log(users,"User from socket"  )
+            console.log(users,"User from socket"  )
+            dispatch(setOnlineUser(users))
          })
       }
      
@@ -292,7 +293,7 @@ const inputRef = useRef(null);
       if (chatContainer) {
          chatContainer.scrollTop = chatContainer.scrollHeight;
       }
-   }, [messege]); 
+   }, [messege,currentChat]); 
  
 
 
@@ -308,6 +309,20 @@ const inputRef = useRef(null);
                background: "#595f69"
             }} position='sticky'>
                <Toolbar >
+               <div style={{
+                    width: "3rem",
+                    height: "3rem",
+                    borderRadius: "56",
+                    marginRight:".7rem"
+        
+        
+                }}>
+                    <img style={{
+                        width: "3rem",
+                        height: "3rem",
+                        borderRadius: "56rem"
+                    }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
+                </div>
                   <Typography flexGrow={1} variant="h6" color="inherit">{friendData.firstname + " "+ friendData.lastname}</Typography>
 
                   <Stack flexDirection={'row'} flexGrow={0} >
@@ -318,9 +333,7 @@ const inputRef = useRef(null);
                         <ArrowBackIcon />
                      </IconButton>
 
-                     {/* <IconButton onClick={delMessege} aria-label="videocall button" >
-                        <DeleteIcon />
-                     </IconButton> */}
+                     
                      
 
                   </Stack>
@@ -377,8 +390,8 @@ const inputRef = useRef(null);
                   ),
                   startAdornment: (
                      <>
-                        <InputAdornment sx={{ marginRight: ".7rem" }} position="start">
-                           <ImageIcon style={{ color: 'white', cursor: "pointer" }} />
+                        <InputAdornment  sx={{ marginRight: ".7rem" }} position="start">
+                           <ImageIcon  style={{ color: 'white', cursor: "pointer" }} />
                         </InputAdornment>
 
                         <InputAdornment onClick={gifShow} sx={{ marginRight: ".7rem" }} position="start">

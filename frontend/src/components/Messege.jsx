@@ -19,13 +19,19 @@ width: "100%"
 
 
 <div style={{
+ height:"auto",
  
+ maxWidth:"100%",
 textAlign: own ? "right" : "left",
 }}>
 {
     mes.mestype =="text" ?
     <>
-    <p className={own ? 'messege-text-own' : "messege-text-other "}>  {mes.messege}  </p>
+    <p style={{
+      wordWrap:"break-word",
+      height:"auto",
+      textAlign:"justify"
+    }} className={own ? 'messege-text-own' : "messege-text-other "}>  {mes.messege}  </p>
 
 </> :
 <>

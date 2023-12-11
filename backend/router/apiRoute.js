@@ -229,12 +229,11 @@ router.get('/messege/:conversationId', async (req, res) => {
 
 
 //delete a conversation 
-router.delete('/delmessage/:conversationId', async (req, res) => {
+router.delete('/delmessage', async (req, res) => {
     try {
-        const conversationId = req.params.conversationId;
+        const {conversationId} =req.body
 
-        // Assuming MessegeModel and ConversationModel have appropriate methods for deletion
-       
+    
         const deletedConversation = await ConversationModel.findByIdAndDelete(conversationId);
 
         if (deletedConversation ) {
