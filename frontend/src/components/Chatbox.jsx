@@ -18,99 +18,186 @@ import { current } from '@reduxjs/toolkit';
 import { setFriendData, setOnlineUser } from '../slices/authSlicer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-
+import Peer from 'simple-peer'
 
 const Chatbox = () => {
 
 
    const dispatch = useDispatch()
    const { showEmoji, showGif } = useSelector((state) => state.toggle)
-   const { currentChat, messege,emoGif } = useSelector(state => state.conversation)
+   const { currentChat, messege, emoGif } = useSelector(state => state.conversation)
    const [arrivalMessage, setArrivalMessage] = useState(null)
-   const { userData ,friendData} = useSelector((state) => state.auth)
+   const { userData, friendData } = useSelector((state) => state.auth)
    const [presentChat, setPresentChat] = useState('')
+
+   const myVideo = useRef()
+   const userVideo = useRef()
+   const connectionRef = useRef()
  
-useEffect(()=>{
-   if(currentChat){
-      // console.log(currentChat)
-      const getFriend=async()=>{
-         const friendId = await currentChat.members.find((id) => id !== userData._id);
-         const response=await axios.get(`http://localhost:4000/friendid/${friendId}`)
-         dispatch(setFriendData(response.data.messege[0]))
-      }
-      getFriend()
+   const [stream, setStream] = useState()
+   const [receivingCall, setReceivingCall] = useState(false)
+   const [caller, setCaller] = useState("")
+   const [callerSignal, setCallerSignal] = useState()
+   const [callAccepted, setCallAccepted] = useState(false)
+   const [idToCall, setIdToCall] = useState("")
+   const [callEnded, setCallEnded] = useState(false)
+   const [name, setName] = useState("")
+   const [receiverCallData, setReceiverCallData] = useState([])
+
+   useEffect(() => {
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+         setStream(stream)
+         myVideo.current.srcObject = stream
+
+
+         socket.on("callUser", (data) => {
+            setReceivingCall(true)
+            setCaller(data.from)
+            setName(data.name)
+            setCallerSignal(data.signal)
+         })
+
+      }).catch(error => console.log(error, " Error at requesting media service"))
+   }, [])
+
+
+   // video call function 
+   const callButton = async () => {
+const peer = new Peer({
+			initiator: true,
+			trickle: false,
+			stream: stream
+		})
+
+      peer.on("signal", (data) => {
+			socket.emit("callUser", {
+				userToCall: id,
+				signalData: data,
+				from: me,
+				name: name
+			})
+		})
+      peer.on("stream", (stream) => {
+			
+         userVideo.current.srcObject = stream
+      
+   })
+   socket.on("callAccepted", (signal) => {
+      setCallAccepted(true)
+      peer.signal(signal)
+   })
+
+   connectionRef.current = peer
+
    }
- 
-  
-},[currentChat])
+
+   const answerCall =() =>  {
+		setCallAccepted(true)
+		const peer = new Peer({
+			initiator: false,
+			trickle: false,
+			stream: stream
+		})
+		peer.on("signal", (data) => {
+			socket.emit("answerCall", { signal: data, to: caller })
+		})
+		peer.on("stream", (stream) => {
+			userVideo.current.srcObject = stream
+		})
+
+		peer.signal(callerSignal)
+		connectionRef.current = peer
+	}
+
+	const leaveCall = () => {
+		setCallEnded(true)
+		connectionRef.current.destroy()
+	}
+
+
+
+
+   useEffect(() => {
+      if (currentChat) {
+         // console.log(currentChat)
+         const getFriend = async () => {
+            const friendId = await currentChat.members.find((id) => id !== userData._id);
+            const response = await axios.get(`http://localhost:4000/friendid/${friendId}`)
+            dispatch(setFriendData(response.data.messege[0]))
+         }
+         getFriend()
+      }
+
+
+   }, [currentChat])
 
    //socket things
 
-const navigate=useNavigate()
+   const navigate = useNavigate()
    const socket = useRef()
    useEffect(() => {
       if (userData && socket.current === undefined) {
-        socket.current = io("ws://localhost:3000");
-        
-        socket.current.on("connection", () => {
-          console.log("Socket connected");
-        });
-    
-        socket.current.on("getMessage", async (data) => {
-          if (data.messege) {
-            setArrivalMessage({
-               sender: data.senderId,
-               messege: data.messege,
-               mestype:data.mestype,
-               createdAt: Date.now(),
-             });
-            //  console.log(data.messege)
-          }
-        });
-      }
-    
-   
-    }, [userData, currentChat, messege, dispatch]);
-    
+         socket.current = io("ws://localhost:3000");
 
-    useEffect(() => {
+         socket.current.on("connection", () => {
+            console.log("Socket connected");
+         });
+
+         socket.current.on("getMessage", async (data) => {
+            if (data.messege) {
+               setArrivalMessage({
+                  sender: data.senderId,
+                  messege: data.messege,
+                  mestype: data.mestype,
+                  createdAt: Date.now(),
+               });
+               //  console.log(data.messege)
+            }
+         });
+      }
+
+
+   }, [userData, currentChat, messege, dispatch]);
+
+
+   useEffect(() => {
       if (arrivalMessage && currentChat) {
-         let arrive=arrivalMessage
+         let arrive = arrivalMessage
 
-      //   console.log(arrive, "new message " + "current chat");
-        currentChat?.members?.includes(arrivalMessage.sender) &&
-          dispatch(setMessege((messege)=>[...messege, arrive])); // execute the function
-      //   console.log(messege);
+         //   console.log(arrive, "new message " + "current chat");
+         currentChat?.members?.includes(arrivalMessage.sender) &&
+            dispatch(setMessege((messege) => [...messege, arrive])); // execute the function
+         //   console.log(messege);
       }
-    }, [arrivalMessage]);
-    
-   useEffect(()=>{
-      if(userData){
+   }, [arrivalMessage]);
+
+   useEffect(() => {
+      if (userData) {
          socket.current.emit("addUser", userData._id)  //send to server
          socket.current.on("getUser", (users) => {
-            console.log(users,"User from socket"  )
+            console.log(users, "User from socket")
             dispatch(setOnlineUser(users))
          })
       }
-     
-   },[currentChat])
-   // console.log(socket.current)
- 
- 
- 
- 
 
-   
+   }, [currentChat])
+   // console.log(socket.current)
+
+
+
+
+
+
 
    // const delMessege=async()=>{
-  
+
    //    if(currentChat){
    //     const response=await axios.delete(`http://localhost:4000/delmessege/${currentChat._id}`)
    //     console.log(response ,"data deleted")
    //    }
-     
+
    //   }
-     
+
 
 
 
@@ -121,37 +208,37 @@ const navigate=useNavigate()
 
 
    ////////////////////////////////////////////
-  
+
 
 
    const [newMessege, setNewMessege] = useState({
       sender: userData._id,
       messege: 'hi',
       conversationId: '',
-      mestype:'text'
+      mestype: 'text'
 
    })
    useEffect(() => {
 
       if (currentChat) {
-        setPresentChat("lol")
+         setPresentChat("lol")
          setNewMessege({ ...newMessege, sender: userData._id, conversationId: currentChat._id })
 
       }
 
    }, [currentChat])
 
-  
-useEffect(()=>{
-if(emoGif){
-   setNewMessege({...newMessege,messege:`${newMessege.messege} ${emoGif}`})
-}
-},[emoGif])
- 
-const { senderGif}=useSelector(state => state.conversation)
- 
 
-   
+   useEffect(() => {
+      if (emoGif) {
+         setNewMessege({ ...newMessege, messege: `${newMessege.messege} ${emoGif}` })
+      }
+   }, [emoGif])
+
+   const { senderGif } = useSelector(state => state.conversation)
+
+
+
 
 
 
@@ -159,109 +246,109 @@ const { senderGif}=useSelector(state => state.conversation)
    const updateMessege = (e) => {
       e.preventDefault();
       setNewMessege({ ...newMessege, messege: e.target.value });
-   
+
       if (e.key === 'Enter') {
          submitMessege(e); // Pass the event to submitMessege
       }
    };
-   
-///sending gif 
- 
-useEffect(()=>{
-   if(senderGif){
-      sendGif()
 
-   }
-},[senderGif])
+   ///sending gif 
 
-const sendGif = async (e) => {
-let gif=await senderGif
-   const receiverId = await currentChat.members.find(id => id !== userData._id);
-    
+   useEffect(() => {
+      if (senderGif) {
+         sendGif()
+
+      }
+   }, [senderGif])
+
+   const sendGif = async (e) => {
+      let gif = await senderGif
+      const receiverId = await currentChat.members.find(id => id !== userData._id);
+
       setNewMessege(prevMessege => ({
-         ...prevMessege,    
+         ...prevMessege,
          messege: gif,
          mestype: "img"
       }));
-   
-   
-   await socket.current.emit('sendMessage',{
-      senderId:userData._id,
-      receiverId,
-      messege:gif,
-      mestype:'img'
 
-     })
-  try{
-   const response = await axios.post("http://localhost:4000/write", {
-      sender: userData._id,
-      conversationId:currentChat._id,
-      messege: gif,
-      mestype: "img"
-   })
-   // console.log(response)
-   if(response){
-      setNewMessege(prevMessege => ({
-         ...prevMessege,    
-         messege:" "
-      }));
-      dispatch(setSenderGif(''))
+
+      await socket.current.emit('sendMessage', {
+         senderId: userData._id,
+         receiverId,
+         messege: gif,
+         mestype: 'img'
+
+      })
+      try {
+         const response = await axios.post("http://localhost:4000/write", {
+            sender: userData._id,
+            conversationId: currentChat._id,
+            messege: gif,
+            mestype: "img"
+         })
+         // console.log(response)
+         if (response) {
+            setNewMessege(prevMessege => ({
+               ...prevMessege,
+               messege: " "
+            }));
+            dispatch(setSenderGif(''))
+
+         }
+      } catch (err) {
+         console.log(err)
+      }
 
    }
-  }catch(err){
-   console.log(err)
-  }
-  
-}
 
 
 
 
-const inputRef = useRef(null);
+   const inputRef = useRef(null);
 
 
 
    const submitMessege = async (e) => {
 
       const receiverId = await currentChat.members.find(id => id !== userData._id);
-       
-         setNewMessege(prevMessege => ({
-            ...prevMessege,    
-            messege:  e.target.value,
-            mestype: "text"
-         }));
-      
-   
-         await socket.current.emit('sendMessage',{
-            senderId:userData._id,
-            receiverId,
-            messege:newMessege.messege,
-            mestype:newMessege.mestype
-      
-           })
-        try{
+
+      setNewMessege(prevMessege => ({
+         ...prevMessege,
+         messege: e.target.value,
+         mestype: "text"
+      }));
+
+
+      await socket.current.emit('sendMessage', {
+         senderId: userData._id,
+         receiverId,
+         messege: newMessege.messege,
+         mestype: newMessege.mestype
+
+      })
+      try {
          const response = await axios.post("http://localhost:4000/write", newMessege)
          // console.log(response)
-         if(response){
+         if (response) {
             setNewMessege(prevMessege => ({
-               ...prevMessege,    
-               messege:""
+               ...prevMessege,
+               messege: ""
             }));
             inputRef.current.value = '';
             dispatch(setSenderGif(''))
-   
+
          }
-        }catch(err){
+      } catch (err) {
          console.log(err)
-        }
-    
-   
-     
+      }
+
+
+
    }
 
 
-    /////////////////
-    const emojiShow = () => {
+   /////////////////
+   const emojiShow = () => {
 
       if (showEmoji == false) {
          dispatch(setShowGif(false))
@@ -278,7 +365,7 @@ const inputRef = useRef(null);
       if (showGif == false) {
          dispatch(setShowEmoji(false))
          dispatch(setShowGif(true))
-      
+
 
       } else {
          dispatch(setShowGif(false))
@@ -288,17 +375,18 @@ const inputRef = useRef(null);
 
 
    useEffect(() => {
-       
+
       const chatContainer = document.getElementById('div-messege-container');
       if (chatContainer) {
          chatContainer.scrollTop = chatContainer.scrollHeight;
       }
-   }, [messege,currentChat]); 
- 
+   }, [messege, currentChat]);
 
 
 
-   if ( friendData.firstname && currentChat ) {
+
+
+   if (friendData.firstname && currentChat) {
 
 
       // console.log(currentChat,"current")
@@ -309,32 +397,34 @@ const inputRef = useRef(null);
                background: "#595f69"
             }} position='sticky'>
                <Toolbar >
-               <div style={{
-                    width: "3rem",
-                    height: "3rem",
-                    borderRadius: "56",
-                    marginRight:".7rem"
-        
-        
-                }}>
-                    <img style={{
+                  <div style={{
+                     width: "3rem",
+                     height: "3rem",
+                     borderRadius: "56",
+                     marginRight: ".7rem"
+
+
+                  }}>
+                     <img style={{
                         width: "3rem",
                         height: "3rem",
                         borderRadius: "56rem"
-                    }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
-                </div>
-                  <Typography flexGrow={1} variant="h6" color="inherit">{friendData.firstname + " "+ friendData.lastname}</Typography>
+                     }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
+                  </div>
+                  <Typography flexGrow={1} variant="h6" color="inherit">{friendData.firstname + " " + friendData.lastname}</Typography>
 
                   <Stack flexDirection={'row'} flexGrow={0} >
 
-                     
+                     <IconButton onClick={callButton} aria-label="videocall button" >
+                        <VideoCallIcon />
+                     </IconButton>
 
-                     <IconButton onClick={()=>navigate('/')}  aria-label="videocall button" >
+                     <IconButton onClick={() => navigate('/')} aria-label="videocall button" >
                         <ArrowBackIcon />
                      </IconButton>
 
-                     
-                     
+
+
 
                   </Stack>
 
@@ -347,14 +437,14 @@ const inputRef = useRef(null);
 
             <div id='div-messege-container' style={{
                overflowY: "scroll",
-               height:(window.innerWidth > 600)? "77vh":"85vh",
+               height: (window.innerWidth > 600) ? "77vh" : "85vh",
                padding: "2rem 0",
-               
+
 
             }}>
                {
                   messege?.map((elem, i) => {
-                  
+
                      return (
                         <Messege mes={elem} key={i} own={elem.sender == userData._id} />
 
@@ -373,11 +463,11 @@ const inputRef = useRef(null);
 
             <form >
 
-               <TextField   inputRef={inputRef} onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
+               <TextField inputRef={inputRef} onChange={updateMessege} value={newMessege.messege} autoComplete='off' fullWidth sx={{
                   paddingRight: "1rem",
-                   
+
                   outline: "none",
-                  marginBottom:0,
+                  marginBottom: 0,
 
                   borderRadius: 50,
                   background: "#343541"
@@ -390,7 +480,7 @@ const inputRef = useRef(null);
                   ),
                   startAdornment: (
                      <>
-                       
+
 
                         <InputAdornment onClick={gifShow} sx={{ marginRight: ".7rem" }} position="start">
                            <GifIcon style={{ color: 'white', cursor: "pointer" }} />
