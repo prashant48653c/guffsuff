@@ -73,14 +73,28 @@ io.on("connection", (socket) => {
   
 
 
-  socket.on("callUser", (data) => {
-		io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name })
+  socket.on("callUser",async (data) => {
+    const userReceiver = await getUser(data.receiverId);
+    const userSender = await getUser(data.senderId);
+    if(userReceiver){
+      io.to(userReceiver.socketId).emit("answerCall",data)
+      console.log("data aayo from sender",data)
+    }
+    if(userSender){
+      io.to(userSender.socketId).emit("answerCall",data)
+      console.log("data aayo sender side",data)
+    }
 	})
 
-	socket.on("answerCall", (data) => {
-		io.to(data.to).emit("callAccepted", data.signal)
-	})
+ 
+  socket.on("stream", (data) => {
+    const userReceiver = getUser(data.receiverId);
+  
+    if (userReceiver) {
+      io.to(userReceiver.socketId).emit("stream", data.stream);
 
+    }
+  });
  
 
   //when disconnect
@@ -92,5 +106,5 @@ io.on("connection", (socket) => {
 });
 
 httpServer.listen(3000,()=>{
-  console.log("Listening")
+  console.log("Socket server has started !!!!!")
 })
