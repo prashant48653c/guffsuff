@@ -73,28 +73,10 @@ io.on("connection", (socket) => {
   
 
 
-  socket.on("callUser",async (data) => {
-    const userReceiver = await getUser(data.receiverId);
-    const userSender = await getUser(data.senderId);
-    if(userReceiver){
-      io.to(userReceiver.socketId).emit("answerCall",data)
-      console.log("data aayo from sender",data)
-    }
-    if(userSender){
-      io.to(userSender.socketId).emit("answerCall",data)
-      console.log("data aayo sender side",data)
-    }
-	})
+
 
  
-  socket.on("stream", (data) => {
-    const userReceiver = getUser(data.receiverId);
-  
-    if (userReceiver) {
-      io.to(userReceiver.socketId).emit("stream", data.stream);
-
-    }
-  });
+ 
  
 
   //when disconnect

@@ -64,16 +64,16 @@ const Conversation = ({ user }) => {
 
 
     return (
-        <Box sx={{
+        <Box  className="convo-person" sx={{
             padding: ".7rem",
             display: "flex",
             gap: "1rem",
             alignItem: "center",
             borderRadius: "1rem",
-            background: "#595f69",
+        
             marginY: "1rem"
         }}>
-            <div style={{
+            <div  style={{
                 width: "3rem",
                 height: "3rem",
                 borderRadius: "56",

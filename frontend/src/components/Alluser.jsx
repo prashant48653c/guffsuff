@@ -9,13 +9,13 @@ const {onlineUser}=useSelector(state => state.conversation)
   
 
   return (
-    <Box  sx={{
+    <Box className='convo-person' sx={{
         padding: ".7rem",
         display: "flex",
         gap: "1rem",
         alignItem: "center",
         borderRadius: "1rem",
-        background: "#595f69",
+        
         marginY: "1rem"
     }}>
         <div style={{

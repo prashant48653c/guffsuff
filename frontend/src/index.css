@@ -186,6 +186,13 @@ text-align: center;
     transform: scale(1);
   }
 }
-
+.convo-person{
+  background-color: #71797E;
+  cursor: pointer;
+  transition: all .3s linear;
+}
+.convo-person:hover{
+  background-color: #444654;
+}
  
  

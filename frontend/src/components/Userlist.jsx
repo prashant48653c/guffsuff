@@ -135,24 +135,26 @@ const Userlist = () => {
 
   const [conversationInfo,setConversationInfo]=useState([])
 
-const getConnected=async(e,user)=>{
-  e.preventDefault()
-  try{
-    let info= {
-      senderId:userData._id,
-      receiverId:user._id
-    }
-    // console.log(info)
-   setConversationInfo(info)
-    const response = await axios.post("http://localhost:4000/connect",conversationInfo,{
-      withCredentials:true
-    })
-    console.log(response.data)
+  const getConnected=async(e,user)=>{
+    e.preventDefault()
+    try{
+      let info= {
+        senderId:userData._id,
+        receiverId:user._id
+      }
+      // console.log(info)
 
-  }catch(err){
-    console.log(err)
+      const response = await axios.post("http://localhost:4000/connect",info,{
+        withCredentials:true
+      })
+    
+      console.log(response.data)
+      setConversationInfo(info)
+    }catch(err){
+      console.log(err)
+    }
   }
-}
+
 
  const handleChange=(e)=>{
   if(e.key == 'Enter'){
@@ -175,10 +177,7 @@ console.log(result, "search result");
     return (
       <aside style={{
         position: "relative",
-       
-
-
-
+    
       }}>
 
         
@@ -231,9 +230,9 @@ console.log(result, "search result");
               conversation ?
               (
                 conversation?.map((user, i) => (
-                  <div style={{ overflowY:"scroll"}} key={i} onClick={(e) => getMessege(e, user)}>
+                  <div onClick={(e) => getMessege(e, user)} key={i} >
                     
-                    <Conversation user={user} />
+                    <Conversation  user={user} />
                  
                   </div>
                 ))
@@ -264,7 +263,7 @@ console.log(result, "search result");
 {
               (
                 allUser?.map((user, i) => (
-                  <div key={i} onClick={(e) => getConnected(e, user)}>
+                  <div  key={i} onClick={(e) => getConnected(e, user)}>
                 <Alluser user={user} />
                   </div>
                 ))
