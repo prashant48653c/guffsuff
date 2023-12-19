@@ -1,8 +1,8 @@
 
 # GuffSuff Messaging Website
 
-![GuffSuff Logo](![image](https://github.com/prashant48653c/guffsuff/assets/125622593/0d876d28-07e8-4507-8558-fd4b88c8542c)
-)
+![GuffSuff Logo](https://github.com/prashant48653c/guffsuff/assets/125622593/0d876d28-07e8-4507-8558-fd4b88c8542c)
+
 
 GuffSuff is a real-time messaging website built with the MERN stack (MongoDB, Express.js, React.js, Node.js) and Socket.io. The project utilizes Material UI for a sleek and responsive user interface, JWT token for secure authentication, and Socket.io for seamless real-time communication.
 
@@ -18,21 +18,21 @@ GuffSuff is a real-time messaging website built with the MERN stack (MongoDB, Ex
 
 ## Screenshots
 
-![Screenshot 1](![image](https://github.com/prashant48653c/guffsuff/assets/125622593/40ca8b8d-2260-41e2-8bb4-24dac15006c5)
-)
+![Screenshot 1](https://github.com/prashant48653c/guffsuff/assets/125622593/40ca8b8d-2260-41e2-8bb4-24dac15006c5)
+
 
 Socket.io is a powerful and versatile JavaScript library that facilitates real-time, bidirectional communication between clients and servers. By building on the WebSocket protocol, Socket.io provides a seamless and efficient way for web applications to establish persistent connections, enabling instant data exchange
 
-![Screenshot 2](![image](https://github.com/prashant48653c/guffsuff/assets/125622593/83ffb532-401b-4a78-af9b-72451e201870)
-)
+![Screenshot 2](https://github.com/prashant48653c/guffsuff/assets/125622593/83ffb532-401b-4a78-af9b-72451e201870)
+
 Integrated GIF support
 
-![Screenshot 3](![image](https://github.com/prashant48653c/guffsuff/assets/125622593/b7274e91-5323-4695-a7ab-602c01a8c8c6)
-)
+![Screenshot 3](https://github.com/prashant48653c/guffsuff/assets/125622593/b7274e91-5323-4695-a7ab-602c01a8c8c6)
+
 Login and Signup Option
 
-![Screenshot 4](![image](https://github.com/prashant48653c/guffsuff/assets/125622593/dc364ef1-59d6-4042-953a-f79b284d60e4)
-)
+![Screenshot 4](https://github.com/prashant48653c/guffsuff/assets/125622593/dc364ef1-59d6-4042-953a-f79b284d60e4)
+
 Integrated Emoji Support
 
 ## Getting Started
