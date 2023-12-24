@@ -62,6 +62,8 @@ const Conversation = ({ user }) => {
         }
     }
 
+ 
+
 
     return (
         <Box  className="convo-person" sx={{
@@ -70,13 +72,15 @@ const Conversation = ({ user }) => {
             gap: "1rem",
             alignItem: "center",
             borderRadius: "1rem",
-        
+       justifyContent:"space-between",
             marginY: "1rem"
         }}>
             <div  style={{
-                width: "3rem",
-                height: "3rem",
+                 
                 borderRadius: "56",
+                display:"flex",
+                gap:"1rem",
+                maxWidth:"100%"
 
 
             }}>
@@ -85,15 +89,22 @@ const Conversation = ({ user }) => {
                     height: "3rem",
                     borderRadius: "56rem"
                 }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
-            </div>
-            <Box >
+  <div>
+                
                 <Typography variant="body1" color="inherit">{friendData.firstname + " " + friendData.lastname}</Typography>
                 <Typography variant="subtitle2" color="inherit">{onlineId.includes(friendData._id) ? "Online" : "Click to chat"}</Typography>
 
-            </Box>
+            </div>
+            </div>
+           
+          
             <IconButton onClick={delMessege} aria-label="videocall button" >
                 <DeleteIcon />
             </IconButton>
+            
+          
+
+
         </Box>
     )
 

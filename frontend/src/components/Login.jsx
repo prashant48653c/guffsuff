@@ -34,6 +34,7 @@ setUserCredential({...userCredential,[name]:value})
     })
     if(res){
         navigate("/")
+        location.reload()
        }
     // console.log(res)
     

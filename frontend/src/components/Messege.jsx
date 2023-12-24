@@ -20,9 +20,6 @@ const [reload, setreload] = useState(false)
         
 console.log(response)
  
- 
-
-     
     }catch(error){
       console.log(error,"Error while deleting messege in frontend")
     }

@@ -1,4 +1,5 @@
-import { AppBar, Box, IconButton, InputAdornment, Stack, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, IconButton, InputAdornment, Stack, TextField,Button, Toolbar, Typography  } from '@mui/material'
+ 
 import React, { useEffect, useRef, useState } from 'react'
 import SendIcon from '@mui/icons-material/Send';
 import ImageIcon from '@mui/icons-material/Image';
@@ -30,6 +31,7 @@ const Chatbox = () => {
    const { userData, friendData } = useSelector((state) => state.auth)
    const [presentChat, setPresentChat] = useState('')
    const [receiverId, setReceiverId] = useState('')
+   const {searchName}=useSelector(state =>state.toggle)
 
 
 
@@ -466,8 +468,32 @@ e.preventDefault()
             justifyContent: "center",
             display: "flex",
             textAlign: "center",
-            alignItems: "center"
-         }} >Try some guffsuff</Box>
+            alignItems: "center",
+            flexDirection:"column",
+            gap:5,
+            
+           
+           
+         }} >
+<Typography variant="h4" color="inherit">Try some guffsuff</Typography>
+{
+   !userData.firstname &&
+<>
+<Typography variant="h4" color="inherit">Please Login to continue</Typography>
+         
+        <Button sx={{
+            padding:".7rem 3rem",
+            borderRadius:"4rem"
+        }} type='submit'  variant="contained"  onClick={()=>navigate('/login')} >Login</Button>
+
+
+</>
+}
+
+           
+         
+         
+         </Box>
       )
    }
 

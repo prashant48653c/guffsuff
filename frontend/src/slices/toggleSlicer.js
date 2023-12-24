@@ -7,7 +7,7 @@ export const toggleSlicer = createSlice({
   initialState:{
     showEmoji:false,
     showGif:false,
-    searchName:""
+    searchName:3
   },
   reducers: {
     
