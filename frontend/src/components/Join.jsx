@@ -26,7 +26,7 @@ const navigate=useNavigate()
         try{
     
        
-        const res=await axios.post("http://localhost:4000/signup",userCredential,{
+        const res=await axios.post("https://guffsuffback.onrender.com/signup",userCredential,{
             headers: {
                 'Content-Type': 'application/json', 
               },

@@ -19,7 +19,7 @@ const Conversation = ({ user }) => {
     const getFriendData = async (friendId) => {
         try {
             // console.log(friendId);
-            const response = await axios.get(`http://localhost:4000/friendid/${friendId}`);
+            const response = await axios.get(`https://guffsuffback.onrender.com/friendid/${friendId}`);
             const data = response.data.messege[0];
             (setFriendData(data))
             // console.log(response);
@@ -53,7 +53,7 @@ const Conversation = ({ user }) => {
         try {
             let conversationId = currentChat._id
            
-            const response = await axios.delete("http://localhost:4000/delmessage", {
+            const response = await axios.delete("https://guffsuffback.onrender.com/delmessage", {
                 data: { conversationId },
             })
            

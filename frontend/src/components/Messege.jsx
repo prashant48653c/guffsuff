@@ -14,7 +14,7 @@ const [reload, setreload] = useState(false)
   
     try{
  
-        const response=await axios.delete("http://localhost:4000/delsinglemessege",{
+        const response=await axios.delete("https://guffsuffback.onrender.com/delsinglemessege",{
           data:{mesId}
         })
         

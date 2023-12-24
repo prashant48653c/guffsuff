@@ -58,7 +58,7 @@ const Chatbox = () => {
          // console.log(currentChat)
          const getFriend = async () => {
             const friendId = await currentChat.members.find((id) => id !== userData._id);
-            const response = await axios.get(`http://localhost:4000/friendid/${friendId}`)
+            const response = await axios.get(`https://guffsuffback.onrender.com/friendid/${friendId}`)
             dispatch(setFriendData(response.data.messege[0]))
          }
          getFriend()
@@ -134,7 +134,7 @@ const Chatbox = () => {
    // const delMessege=async()=>{
 
    //    if(currentChat){
-   //     const response=await axios.delete(`http://localhost:4000/delmessege/${currentChat._id}`)
+   //     const response=await axios.delete(`https://guffsuffback.onrender.com/delmessege/${currentChat._id}`)
    //     console.log(response ,"data deleted")
    //    }
 
@@ -220,7 +220,7 @@ const Chatbox = () => {
 
       })
       try {
-         const response = await axios.post("http://localhost:4000/write", {
+         const response = await axios.post("https://guffsuffback.onrender.com/write", {
             sender: userData._id,
             conversationId: currentChat._id,
             messege: gif,
@@ -268,7 +268,7 @@ e.preventDefault()
 
       })
       try {
-         const response = await axios.post("http://localhost:4000/write", newMessege)
+         const response = await axios.post("https://guffsuffback.onrender.com/write", newMessege)
          // console.log(response)
          if (response) {
             setNewMessege(prevMessege => ({

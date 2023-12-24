@@ -30,7 +30,7 @@ const Userlist = () => {
     const getUserData = async () => {
        
       try {
-        const response = await axios.get("http://localhost:4000/getdata", {
+        const response = await axios.get("https://guffsuffback.onrender.com/getdata", {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const Userlist = () => {
     const getAllUser = async () => {
        
       try {
-        const response = await axios.get("http://localhost:4000/all", {
+        const response = await axios.get("https://guffsuffback.onrender.com/all", {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const Userlist = () => {
   const logout = async () => {
     try {
      
-      const response = await axios.get("http://localhost:4000/logout", {
+      const response = await axios.get("https://guffsuffback.onrender.com/logout", {
         withCredentials: true, // Include this to send cookies
         headers: {
           Accept: "application/json",
@@ -106,7 +106,7 @@ const Userlist = () => {
       dispatch(setCurrentChat(cur))
 
 
-      const response = await axios.get(`http://localhost:4000/messege/${id}`)  //conversation id
+      const response = await axios.get(`https://guffsuffback.onrender.com/messege/${id}`)  //conversation id
       const data = response.data.messege
       // console.log(data)
       dispatch(setMessege(data))
@@ -128,7 +128,7 @@ const Userlist = () => {
       }
       // console.log(info)
 
-      const response = await axios.post("http://localhost:4000/connect",info,{
+      const response = await axios.post("https://guffsuffback.onrender.com/connect",info,{
         withCredentials:true
       })
     
@@ -142,7 +142,7 @@ const Userlist = () => {
   useEffect(() => {
     const getUserConversation = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/conversation/${userData._id}`);
+        const response = await axios.get(`https://guffsuffback.onrender.com/conversation/${userData._id}`);
         const data = response.data.data;
         dispatch(setConversation(data));
        // Check the data you're receiving
