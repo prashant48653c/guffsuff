@@ -12,7 +12,7 @@ const jwt=require("jsonwebtoken")
 require('dotenv').config();
 router.use(express.json())
 router.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://guffsuffback.onrender.com",
     credentials:true,
     methods: "GET,PUT,POST,PATCH,DELETE"
 }))

@@ -12,7 +12,7 @@ const io=new Server(server)
 app.use(router)
 app.use(cookieParser())
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://guffsuffback.onrender.com",
   credentials:true,
   methods: "GET,PUT,POST,PATCH,DELETE"
 }))

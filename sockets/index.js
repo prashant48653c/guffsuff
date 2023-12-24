@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://guffsuffback.onrender.com",
   methods: ["GET", "POST"],
   credentials: true,
 };
