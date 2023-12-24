@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 
 const corsOptions = {
-  origin: "https://guffsuffback.onrender.com",
+  origin: "https://gufsuff.netlify.app",
   methods: ["GET", "POST"],
   credentials: true,
 };
