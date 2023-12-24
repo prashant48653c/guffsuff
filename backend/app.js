@@ -12,7 +12,7 @@ const io=new Server(server)
 app.use(router)
 app.use(cookieParser())
 app.use(cors({
-  origin: "https://guffsuffback.onrender.com",
+  origin: "https://gufsuff.netlify.app",
   credentials:true,
   methods: "GET,PUT,POST,PATCH,DELETE"
 }))
