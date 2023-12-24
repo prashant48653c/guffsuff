@@ -44,7 +44,7 @@ const Conversation = ({ user }) => {
     useEffect(() => {
         const onlineUserIds = onlineUser.map(user => user.userId);
         const commonUserIds = user.members.filter(userId => onlineUserIds.includes(userId));
-        console.log(commonUserIds, "the onlne id")
+   
         setOnlineId(commonUserIds)
     }, [onlineUser])
 
@@ -52,11 +52,11 @@ const Conversation = ({ user }) => {
     const delMessege = async () => {
         try {
             let conversationId = currentChat._id
-            console.log(conversationId)
+           
             const response = await axios.delete("http://localhost:4000/delmessage", {
                 data: { conversationId },
             })
-            console.log(response.data)
+           
         } catch (err) {
             console.log(err)
         }

@@ -89,7 +89,7 @@ const Userlist = () => {
         },
       });
       if (response) {
-        console.log(response)
+      
         navigate("/login");
       }
     } catch (error) {
@@ -132,7 +132,7 @@ const Userlist = () => {
         withCredentials:true
       })
     
-      console.log(response.data)
+   
      
       setConversationInfo(info)
     }catch(err){
@@ -163,7 +163,7 @@ const Userlist = () => {
     dispatch(setSearchName(" "))
   }
 dispatch(setSearchName(e.target.value))
-console.log(searchName)
+ 
  }
 
 const searchPerson=()=>{
@@ -171,7 +171,7 @@ const searchPerson=()=>{
   user.firstname.toLowerCase().includes(searchName.toLowerCase())
 );
 
-console.log(result, "search result");
+ 
 }
 
   if (userData && conversation) {

@@ -29,7 +29,7 @@ io.on('connection',(socket)=>{     //socket == client
 
 // http request
 app.get('/',(req,res)=>{
-    res.send("home")
+    res.send("This is the home page from the backend server of GuffSuff")
 })
 
 server.listen(PORT,()=>{

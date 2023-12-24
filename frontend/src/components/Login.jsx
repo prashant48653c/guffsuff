@@ -36,7 +36,7 @@ setUserCredential({...userCredential,[name]:value})
         navigate("/")
         location.reload()
        }
-    // console.log(res)
+    
     
 
 }catch(err){

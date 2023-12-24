@@ -117,7 +117,7 @@ const Chatbox = () => {
       if (userData) {
          socket.current.emit("addUser", userData._id)  //send to server
          socket.current.on("getUser", (users) => {
-            console.log(users, "User from socket")
+        
             dispatch(setOnlineUser(users))
          })
       }
@@ -188,7 +188,7 @@ const Chatbox = () => {
    const updateMessege = (e) => {
       e.preventDefault();
       setNewMessege({ ...newMessege, messege: e.target.value });
-console.log(e.target)
+ 
       
    };
 
@@ -305,7 +305,7 @@ e.preventDefault()
    }
 
    const gifShow = () => {
-      console.log("gif")
+     
       if (showGif == false) {
          dispatch(setShowEmoji(false))
          dispatch(setShowGif(true))
