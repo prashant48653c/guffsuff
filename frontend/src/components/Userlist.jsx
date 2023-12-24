@@ -73,7 +73,7 @@ const Userlist = () => {
     };
   
     getAllUser();
-  }, [allUser]);
+  }, []);
 
   
   

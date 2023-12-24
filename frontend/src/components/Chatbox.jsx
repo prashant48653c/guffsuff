@@ -73,7 +73,7 @@ const Chatbox = () => {
    const socket = useRef()
    useEffect(() => {
       if (userData && socket.current === undefined) {
-         socket.current = io("ws://localhost:3000");
+         socket.current  = io("https://guffsuffsocket.onrender.com");
 
          socket.current.on("connection", () => {
             console.log("Socket connected");

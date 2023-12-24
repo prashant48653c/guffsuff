@@ -2,7 +2,7 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
-
+import express from 'express'
 const corsOptions = {
   origin: "https://gufsuff.netlify.app",
   methods: ["GET", "POST"],
@@ -86,6 +86,7 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 });
+
 
 httpServer.listen(3000,()=>{
   console.log("Socket server has started !!!!!")
