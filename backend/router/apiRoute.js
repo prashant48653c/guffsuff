@@ -11,12 +11,13 @@ const jwt=require("jsonwebtoken")
 
 require('dotenv').config();
 router.use(express.json())
+router.use(cookieParser())
 router.use(cors({
     origin: "https://gufsuff.netlify.app",
     credentials:true,
     methods: "GET,PUT,POST,PATCH,DELETE"
 }))
-router.use(cookieParser())
+
 
 
 router.post("/signup", async (req, res) => {
@@ -48,13 +49,13 @@ router.post("/login", async (req, res) => {
         
         if(await oldUser.password === password){
             const token=await oldUser.createAuthToken()
-            res.cookie('jwtoken',token,{
+            res.cookie('jwtoken', token, {
                 expires: new Date(Date.now() + 25892000000),
-                httpOnly: false,
+                httpOnly: true,
                 credentials: "include",
-                secure: true
-                
-            })
+                secure: true,
+                sameSite: "None"
+            });
         
            res.status(200).json({ messege: "Succesfully login!" })   
         }else{
