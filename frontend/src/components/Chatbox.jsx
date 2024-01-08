@@ -65,7 +65,7 @@ const Chatbox = () => {
       }
 
 
-   }, [currentChat])
+   }, [])
 
    //socket things
 
