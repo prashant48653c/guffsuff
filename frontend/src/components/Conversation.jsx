@@ -22,6 +22,7 @@ const Conversation = ({ user }) => {
             const response = await axios.get(`https://guffsuffback.onrender.com/friendid/${friendId}`);
             const data = response.data.messege[0];
             (setFriendData(data))
+            console.log("From chatbox 25")
             // console.log(response);
         } catch (error) {
             console.error("Error fetching friend data:", error);
@@ -32,12 +33,13 @@ const Conversation = ({ user }) => {
         if (user.members && user.members.length > 0) {
             const friendId = user.members.find((id) => id !== userData._id);
             if (friendId) {
+                console.log("from conversation.jsx line 35 ")
                 getFriendData(friendId);
             } else {
                 console.error("Friend ID not found in user.members");
             }
         }
-    }, [user]);
+    }, []);
 
     const [onlineId, setOnlineId] = useState([])
 

@@ -54,12 +54,13 @@ const Chatbox = () => {
 
 
    useEffect(() => {
-      if (currentChat) {
+      if (currentChat && !friendData) {
          // console.log(currentChat)
          const getFriend = async () => {
             const friendId = await currentChat.members.find((id) => id !== userData._id);
             const response = await axios.get(`https://guffsuffback.onrender.com/friendid/${friendId}`)
             dispatch(setFriendData(response.data.messege[0]))
+            console.log("From chatbox.jsx 63")
          }
          getFriend()
       }
