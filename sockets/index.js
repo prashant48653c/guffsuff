@@ -20,7 +20,9 @@ const io = new Server(httpServer, {
 
 // ... (rest of your code remains unchanged)
 
-
+app.get("/",(req,res)=>{
+  res.send("THis is the socket server for gufsuff")
+})
 let users = [];
 
 const addUser = (userId, socketId) => {

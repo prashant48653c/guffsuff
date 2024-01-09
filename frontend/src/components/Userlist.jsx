@@ -131,6 +131,7 @@ const Userlist = () => {
       const response = await axios.post("https://guffsuffback.onrender.com/connect",info,{
         withCredentials:true
       })
+      console.log(response)
       console.log("Connection established")
     
    
@@ -142,22 +143,27 @@ const Userlist = () => {
   }
 
   useEffect(() => {
-    const getUserConversation = async () => {
-      try {
-        const response = await axios.get(`https://guffsuffback.onrender.com/conversation/${userData._id}`);
-        const data = response.data.data;
-        dispatch(setConversation(data));
-        console.log("Userconversation at userlist 148")
-       // Check the data you're receiving
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
    
   
-    getUserConversation();
-  }, []);  
+      const getUserConversation = async () => {
+        try {
+          const response = await axios.get(`https://guffsuffback.onrender.com/conversation/${userData._id}`);
+          const data = response.data.data;
+          dispatch(setConversation(data));
+          console.log("Userconversation at userlist 148")
+          console.log(data)
+         // Check the data you're receiving
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+     
+    
+      getUserConversation();
+   
+   
+  }, [conversationInfo,userData]);  
  
 
  const handleChange=(e)=>{
