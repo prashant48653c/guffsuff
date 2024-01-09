@@ -11,17 +11,17 @@ const Conversation = ({ user }) => {
     const dispatch = useDispatch()
 
 
-    const { userData, onlineUser } = useSelector((state) => state.auth);
+    const { userData, onlineUser,friendData } = useSelector((state) => state.auth);
     const { currentChat } = useSelector((state) => state.conversation);
-
-    const [friendData, setFriendData] = useState([]);
+const [oneFriendData,setOneFriendData]=useState([])
+    
 
     const getFriendData = async (friendId) => {
         try {
             // console.log(friendId);
             const response = await axios.get(`https://guffsuffback.onrender.com/friendid/${friendId}`);
             const data = response.data.messege[0];
-            (setFriendData(data))
+            (setOneFriendData(data))
             console.log("From chatbox 25")
             // console.log(response);
         } catch (error) {
@@ -68,7 +68,7 @@ const Conversation = ({ user }) => {
 
 
     return (
-        <Box  className="convo-person" sx={{
+        <Box onClick={()=>setFriendData(oneFriendData)} className="convo-person" sx={{
             padding: ".7rem",
             display: "flex",
             gap: "1rem",
@@ -93,8 +93,8 @@ const Conversation = ({ user }) => {
                 }} src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg" alt="" />
   <div>
                 
-                <Typography variant="body1" color="inherit">{friendData.firstname + " " + friendData.lastname}</Typography>
-                <Typography variant="subtitle2" color="inherit">{onlineId.includes(friendData._id) ? "Online" : "Click to chat"}</Typography>
+                <Typography variant="body1" color="inherit">{oneFriendData.firstname + " " + oneFriendData.lastname}</Typography>
+                <Typography variant="subtitle2" color="inherit">{onlineId.includes(oneFriendData._id) ? "Online" : "Click to chat"}</Typography>
 
             </div>
             </div>
