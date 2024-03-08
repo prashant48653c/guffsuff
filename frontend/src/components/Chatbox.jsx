@@ -476,6 +476,8 @@ textAlign: "center",
 alignItems: "center",
 flexDirection:"column",
 gap:5,
+position:"absolute",
+left:0,
 
 
 
@@ -483,16 +485,22 @@ gap:5,
 <Typography variant="h4" color="inherit">Try some guffsuff</Typography>
 {
 !userData.firstname &&
-<>
-<Typography variant="h4" color="inherit">Please Login to continue</Typography>
+ (
+    <>
+    
+    <Typography variant="h4" color="inherit">Please Login to continue</Typography>
 
 <Button sx={{
 padding:".7rem 3rem",
 borderRadius:"4rem"
 }} type='submit'  variant="contained"  onClick={()=>navigate('/login')} >Login</Button>
+    </>
+
+ )
 
 
-</>
+
+ 
 }
 
 
