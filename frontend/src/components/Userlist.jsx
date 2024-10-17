@@ -310,7 +310,7 @@ const searchPerson=()=>{
                         width: "3rem",
                         height: "3rem",
                         borderRadius: "56rem"
-                    }} src="https://1fid.com/wp-content/uploads/2022/06/cool-profile-picture-2-1024x1024.jpg" alt="" />
+                    }} src="/resize.webp" alt="" />
                 </div>
             <Typography flexGrow={1} px={2} variant="body1" color="inherit">{userData.firstname + " "+ userData.lastname}</Typography>
             <IconButton onClick={logout} aria-label="logout"  >
